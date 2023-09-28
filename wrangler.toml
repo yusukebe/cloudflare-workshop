@@ -1,0 +1,7 @@
+name = "cloudflare-workshop"
+compatibility_date = "2023-01-01"
+
+rules = [
+  { type = "Text", globs = ["**/*.md"], fallthrough = false },
+  { type = "Data", globs = ["**/*.ico"], fallthrough = false }
+]
