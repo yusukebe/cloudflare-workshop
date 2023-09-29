@@ -29,7 +29,7 @@ export const rendererMiddleware = middleware(async (c, next) => {
               }
               img { margin: 2rem 0; }
               #toc {
-                font-size: 0.8rem;
+                font-size: 0.5rem;
                 position: fixed;
                 top: 10px;
                 right: 10px;
