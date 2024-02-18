@@ -14,7 +14,6 @@
     "marked-gfm-heading-id": "^3.0.8"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230821.0",
     "@hono/vite-ssg": "^0.1.0",
     "@mdx-js/rollup": "^3.0.1",
     "rehype-slug": "^6.0.0",
