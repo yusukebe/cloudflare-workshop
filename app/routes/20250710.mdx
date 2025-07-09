@@ -1,0 +1,1637 @@
+---
+title: 'Cloudflare Workers ワークショップ'
+url: 'https://workshop.yusuke.run/20250710'
+imageUrl: 'https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2716x1452.png'
+---
+
+# Cloudflare Workers ワークショップ
+
+- Yusuke Wada
+- 2025-07-10
+- [workshop.yusuke.run](https://workshop.yusuke.run/)
+
+# アジェンダ
+
+1. 自己紹介
+2. Workers イントロダクション
+3. Hono イントロダクション
+4. 基本編
+5. プロキシ編
+6. Web API編
+7. フルスタック編
+8. AI編
+9. Honoをより深く知る
+10. その他
+
+# 1. 自己紹介
+
+## 自己紹介
+
+- 和田裕介
+- 2023年4月〜 Developer Advocate @ Cloudflare
+- ボケて co-founder
+- Creator of Hono
+- [https://x.com/yusukebe](https://x.com/yusukebe)
+- [https://github.com/yusukebe](https://x.com/yusukebe)
+
+### Developer Relations チーム
+
+- Developer GTM 所属
+- Emerging Technologies & Incubation に近いところにいる
+
+- Manager, Developer Advocate x 3, Developer Education x 3, Community Manager x 3, Engineer x 3, Product Specialist x 1 = 14人
+- NY, Austin, SF, UK, Amsterdam, Lisbon, SF, Tokyo, Germany, Australia, Paris, India, California
+
+### 時差すごい
+
+![SS](https://ss.yusukebe.com/9ed6a6aa390ff6dd31da5bec7a3e44f5160a5d24abdac2d91171906ad0c4fc21_800x425.png)
+
+### やってること
+
+1. Honoの開発
+2. イベント開催
+3. イベント登壇
+4. その他
+
+### Workers Tech Talks
+
+> Cloudflare Workersとその周辺のプロダクトを使う開発者、ライブラリ作者による開発者のためのWorkersに特化したテックトークです。
+
+#### Workers Tech Talks in Tokyo #5
+
+* [https://blog.yusu.ke/workers-tech-talks-5/](https://blog.yusu.ke/workers-tech-talks-5/)
+
+![Workers Tech Talks in Tokyo 5](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
+
+# 2. Workers イントロダクション
+
+- Cloudflareのネットワークで実行されるサーバーレス環境
+
+## 2.1 Cloudflare Workers
+
+> Build serverless applications and deploy instantly across the globe for exceptional performance, reliability, and scale.
+>
+> サーバーレスアプリケーションを構築し、卓越したパフォーマンス、信頼性、スケールのために世界中に即座にデプロイします。
+>
+> https://developers.cloudflare.com/workers/
+
+- 設定、メンテ必要なしのサーバーレス環境を提供
+- Cloudflareのネットワークに即座にデプロイされる
+- フリープランでだいぶ遊べる
+- [Workers Playground](https://workers.new) - [https://workers.new](https://workers.new)
+
+### Cloudflare Workersの思想
+
+![SS](https://ss.yusukebe.com/4ad5531eece2c6dd3d39c00c79a70cc2a213809ace6144b16efba0d03e30b2e0_800x303.png)
+
+- [Cloudflare Workersのご紹介: エッジでJavaScript Service Workersを実行する](https://blog.cloudflare.com/ja-jp/introducing-cloudflare-workers-ja-jp/)
+- 2017年9月の記事
+- Cloudflareのネットワークをプログラム可能にする
+- 検討した結果JavaScriptに行き着く
+- V8を採用、複数のユーザーのスクリプトを安全に実行
+- Service Worker APIを採用、ブラウザ用だが実はサーバーサイドにも適している
+- Web APIとして賢く設計されている
+
+### Wrangler
+
+- WorkersのためのCLI
+- Workersプロジェクトの作成、テスト、デプロイ
+- Pagesでも使用
+- Bindingsの管理や`tail`なども
+
+![SS](https://ss.yusukebe.com/0da11c72988072caed24086d59f5b21535a3bfa3a3d587079ac41f690ca91385_800x486.png)
+
+## 2.3 Bindings
+
+CloudflareのリソースとWorkersを結ぶ
+
+- KV
+- Durable Objects
+- R2
+- D1
+- Service Bindings
+- Queue
+- Email
+- Workers AI
+- Containers
+- など
+
+### KV
+
+- 素朴なAPIを備えたKey-Value store
+- アクセスされたらキャッシュされる
+- キャッシュされると静的ファイルのように速い
+- 書き込み後の反映に60秒かかることもある
+- [How KV works](https://developers.cloudflare.com/workers/learning/how-kv-works/)
+
+### Durable Objects
+
+- 同時に書き込み、トランザクション
+- 強整合性
+- チャットなど、リアルアイム、動的コンテンツ
+- D1やR2はこの上に構築されている
+- KVは静的コンテンツや設定、DOは動的な状態管理
+- [Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/)
+
+### R2
+
+- ストレージサービス
+- データエグレスが無料
+- AWS S3のAPIと互換性がある
+- フロントにWorkersを置くことができる
+- [Cloudflare R2](https://developers.cloudflare.com/r2/)
+
+### D1
+
+- Workers、Pagesから利用可能なSQLデータベース
+- オープンアルファ
+- SQLiteがDOで動いている
+- [Cloudflare D1](https://developers.cloudflare.com/d1/)
+
+### Service Bindings
+
+- Workers間の通信処理を可能にする
+- Publicなインターネットを経由しない
+- Workersでマイクロサービスを作る
+- [Service bindings](https://developers.cloudflare.com/workers/configuration/bindings/about-service-bindings/)
+
+### Queue
+
+- メッセージの送受信が可能
+- オープンベータ
+- `queue`で受け取り
+- [Cloudflare Queues](https://developers.cloudflare.com/queues/)
+
+### Email
+
+- 自ドメインのカスタムメールアドレスを使用
+- 受信したメールを受信ボックスへルーティング
+- `email`で受け取り
+- [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/)
+
+## 2.4 Workersを知るために
+
+### リソース
+
+- [公式ドキュメント](https://developers.cloudflare.com/workers/)
+- [ブログ](https://blog.cloudflare.com/)
+- [チュートリアル](https://developers.cloudflare.com/workers/tutorials/)
+- [Discord](https://discord.gg/cloudflaredev)
+- サードパーティの記事
+
+# 3. Hono イントロダクション
+
+## 3.1 Honoとは?
+
+副題
+
+> Fast, lightweight, built on Web Standards. Support for any JavaScript runtime.
+
+* [https://hono.dev](https://hono.dev)
+* [The story of web framework Hono, from the creator of Hono - The Cloudflare Blog](https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono/)
+
+## 3.2 ユースケース
+
+- Web APIの作成
+- バックエンドサーバーのプロキシ
+- CDNのフロント
+- ライブラリのベースサーバー
+- フルスタックアプリ
+
+## 3.3 どこで使われているか？
+
+* Nodecraft
+* OpenStatus
+* Unkey
+* Goens
+* NOT A HOTEL
+* CyberAgent
+* Shift
+* Hanabi.rest
+* BaseAI
+* Mastra
+* その他
+
+### Who is using Hono in production?
+
+* [https://github.com/orgs/honojs/discussions/1510](https://github.com/orgs/honojs/discussions/1510)
+
+## 3.4 5つの特徴
+
+- 速い 🚀 - RegExpRouterはマジで速い。リニアにルーティングしません。
+- 軽量 🪶 - `hono/tiny`プリセットは12kB。HonoはWeb Standard APIのみを使っていて依存0。
+- マルチランタイム 🌍 - Cloudflare Workers, Fastly Compute, Deno, Bun, AWS Lambda, or Node.js。同じコードが全てのランタイム/プラットフォームで動きます。
+- 揃っている 🔋 - Honoにはビルトインミドルウェア、カスタムミドルウェア、3rdパーティミドルウェアがあります。やりたいことが揃っています。
+- 楽しいDX 🛠️ - 綺麗なAPI。そしてTypeScriptのサポート。そう型があるのです。
+
+## 3.5 速い
+
+- 5つのルーターを備えている
+- RegExpRouter - ルーティングをひとつの大きな正規表現にする。JavaScript界でほぼ最速
+- TriRouter - Trie木を利用。リファレンス実装
+- SmartRouter - 登録されたルーターの中から最適なルーターを自動的に選ぶ
+- LinearRouter - 登録が最速
+- PatternRouter - 一番サイズが小さい。1.3KB
+
+### RegExpRouter
+
+- RegExpRouterは「RegExp」といってもExpressなどで使われている[path-to-regexp](https://github.com/pillarjs/path-to-regexp)とは違う
+- path-to-regexpはリニアにマッチさせるので、ルートごとに正規表現が走る
+
+![SS](https://hono.dev/images/router-linear.jpg)
+
+- RegExpRouterは予め一つの大きな正規表現を作り一度でマッチさせる
+
+![SS](https://hono.dev/images/router-regexp.jpg)
+
+### TriRouter
+
+- Trie木の構造を使ったルーター
+- リニアにマッチさせるより速いが、Honoのルーティングの都合上、一般的な木構造のルーターと比べると遅い
+- このルーターを正とする、リファレンス実装になっている
+
+![SS](https://hono.dev/images/router-tree.jpg)
+
+### SmartRouter
+
+- 複数のルーターを登録しておくと、そのアプリケーションに最適なルーターを選んでそれを使い続ける
+
+```ts
+readonly defaultRouter: Router = new SmartRouter({
+  routers: [new RegExpRouter(), new TrieRouter()],
+})
+```
+
+### LinearRouter
+
+- 登録が速い
+
+```txt
+• GET /user/lookup/username/hey
+----------------------------------------------------- -----------------------------
+LinearRouter     1.82 µs/iter      (1.7 µs … 2.04 µs)   1.84 µs   2.04 µs   2.04 µs
+MedleyRouter     4.44 µs/iter     (4.34 µs … 4.54 µs)   4.48 µs   4.54 µs   4.54 µs
+FindMyWay       60.36 µs/iter      (45.5 µs … 1.9 ms)  59.88 µs  78.13 µs  82.92 µs
+KoaTreeRouter    3.81 µs/iter     (3.73 µs … 3.87 µs)   3.84 µs   3.87 µs   3.87 µs
+TrekRouter       5.84 µs/iter     (5.75 µs … 6.04 µs)   5.86 µs   6.04 µs   6.04 µs
+
+summary for GET /user/lookup/username/hey
+  LinearRouter
+   2.1x faster than KoaTreeRouter
+   2.45x faster than MedleyRouter
+   3.21x faster than TrekRouter
+   33.24x faster than FindMyWay
+```
+
+### PatternRouter
+
+- とにかく小さい
+
+![SS](https://ss.yusukebe.com/b4a1395baf72b62eb4b904c1cc1b140f3479b8a64a209740b9f51c77b3834d30_800x276.png)
+
+### ベンチマーク
+
+- https://github.com/honojs/hono/tree/main/benchmarks/routers
+
+対象のルーター
+
+- [find-my-way](https://github.com/delvedor/find-my-way)
+- [express](https://www.npmjs.com/package/express)
+- [koa-router](https://github.com/alexmingoia/koa-router)
+- [koa-tree-router](https://github.com/steambap/koa-tree-router)
+- [trek-router](https://www.npmjs.com/package/trek-router)
+- [@medley/router](https://www.npmjs.com/package/@medley/router)
+- [Memoirist](https://github.com/saltyaom/memoirist)
+- [Hono RegExpRouter](https://github.com/honojs/hono)
+- [Hono TrieRouter](https://github.com/honojs/hono)
+
+結果
+
+```txt
+• all together
+---------------------------------------------------------------------------- -----------------------------
+Hono RegExpRouter                      460.6 ns/iter (429.69 ns … 525.88 ns)  479.5 ns 520.63 ns 525.88 ns
+Hono TrieRouter                         1.52 µs/iter     (1.39 µs … 1.73 µs)   1.56 µs   1.73 µs   1.73 µs
+@medley/router                        618.21 ns/iter (591.08 ns … 764.25 ns) 636.08 ns 764.25 ns 764.25 ns
+find-my-way                           959.15 ns/iter   (892.79 ns … 1.02 µs) 979.02 ns   1.02 µs   1.02 µs
+koa-tree-router                       926.79 ns/iter   (866.17 ns … 1.04 µs) 943.57 ns   1.04 µs   1.04 µs
+trek-router                             1.76 µs/iter     (1.69 µs … 1.84 µs)   1.79 µs   1.84 µs   1.84 µs
+express (WARNING: includes handling)    4.02 µs/iter      (3.9 µs … 4.33 µs)   4.06 µs   4.33 µs   4.33 µs
+koa-router                              1.39 µs/iter     (1.34 µs … 1.57 µs)   1.41 µs   1.57 µs   1.57 µs
+radix3                                763.26 ns/iter (734.77 ns … 902.52 ns)  781.2 ns 902.52 ns 902.52 ns
+Memoirist                             540.11 ns/iter (507.38 ns … 699.65 ns) 554.52 ns 697.25 ns 699.65 ns
+
+summary for all together
+  Hono RegExpRouter
+   1.17x faster than Memoirist
+   1.34x faster than @medley/router
+   1.66x faster than radix3
+   2.01x faster than koa-tree-router
+   2.08x faster than find-my-way
+   3.02x faster than koa-router
+   3.3x faster than Hono TrieRouter
+   3.82x faster than trek-router
+   8.74x faster than express (WARNING: includes handling)
+```
+
+### @usualomaさん
+
+RegExpRouter, SmartRouter, LinearRouter, PatternRouterは [@usualomaさん](https://github.com/usualoma) が作りました。
+@usualomaさんが発表した資料が参考になります。
+
+[![SS](https://ss.yusukebe.com/3d83d51c90264dee2d949cfeec7d1d5739f96adca5519fb8fc64d39546365536_800x437.png)](https://speakerdeck.com/usualoma/honono3-plus-1norutatosokonitunagaruprgapuroziekutonimotarasitamono)
+
+- [Honoの3+1のルーターとそこにつながるPRがプロジェクトにもたらしたもの - Speaker Deck](https://speakerdeck.com/usualoma/honono3-plus-1norutatosokonitunagaruprgapuroziekutonimotarasitamono)
+
+## 3.6 軽量
+
+- 標準で21KB、PatternRouterで13KB
+- ちなみにExpressは572KB
+- Web StandardのAPIのみを使っていて、外部のライブラリへの依存が0。
+
+### プリセット
+
+あらかじめ、おすすめのルーターのセッティングをプリセットとして提供している。
+
+> - `hono`:
+>   ほとんどのユースケースでオススメです。ルーティング登録が`hono/quick`より遅いとはいえ、一度登録されれば高いパフォーマンスを発揮します。**Deno**や**Bun**、それに**Node.js**などを使った常駐型のサーバーには最適です。また、**Cloudflare Workers**や**Deno Deploy**でもこのプリセットを使えばいいでしょう。というのもこれらのようなv8 isolateを使った環境では、isolateは起動後しばらく行き続けるからです（時間が決まっていたり、メモリなどの状況に応じて変化したりします）。
+>
+> - `hono/quick`:
+>   このプリセットはリクエストのたびにアプリケーションが初期化されるような環境に適しています。**Fastly Compute**はこれに従うので、このプリセットを使うといいでしょう。
+>
+> - `hono/tiny`:
+>   このプリセットは一番ファイルサイズの小さいプリセットです。リソースが限られている環境にはいいでしょう。
+
+## 3.7 どこでも動く
+
+### Web Standard APIs
+
+- Web標準のAPIのみを使用
+- Node.jsアダプターはNode.jsのincoming/outgoingをRequest/Responseに変換している
+- [WinterCG](https://wintercg.org/)をフォローしている
+
+### 最低限のコード
+
+```ts
+export default {
+  async fetch() {
+    return new Response('Hello World')
+  },
+}
+```
+
+#### よく使うAPI
+
+- `Request`
+- `Response`
+- `URL`
+- `URLSearchParams`
+- `Headers`
+- `FormData`
+- [Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API)
+
+### スターターのテンプレートは13種類
+
+1. aws-lambda
+2. bun
+3. cloudflare-pages
+4. cloudflare-workers
+5. cloudflare-workers+vite
+6. deno
+7. fastly
+8. lambda-edge
+9. netlify
+10. nextjs
+11. nodejs
+12. vercel
+13. x-basic
+
+### CIでは9種類のランタイムのテストが走る
+
+![CI](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_1334x1080.png)
+
+### エントリポイントが違うだけ
+
+#### Cloudflare Workers & Bun
+
+```ts
+import { Hono } from 'hono'
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+export default app
+```
+
+#### Fastly Compute
+
+```ts
+import { Hono } from 'hono'
+import { fire } from 'hono/service-worker'
+
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+fire(app)
+```
+
+#### Deno
+
+```ts
+import { Hono } from '@hono/hono'
+
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+Deno.serve(app.fetch)
+```
+
+#### Vercel
+
+```ts
+import { Hono } from 'hono'
+import { handle } from 'hono/vercel'
+
+export const config = {
+  runtime: 'edge'
+}
+
+const app = new Hono().basePath('/api')
+
+app.get('/', (c) => {
+  return c.json({ message: 'Hello Hono!' })
+})
+
+export default handle(app)
+```
+
+#### Netlify
+
+```ts
+import { Hono } from 'jsr:@hono/hono'
+import { handle } from 'jsr:@hono/hono/netlify'
+
+const app = new Hono()
+
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+})
+
+export default handle(app)
+```
+
+#### AWS Lambda
+
+```ts
+import { Hono } from 'hono'
+import { handle } from 'hono/aws-lambda'
+
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+export const handler = handle(app)
+```
+
+#### Lambda@Edge
+
+```ts
+import { Hono } from 'hono'
+import { handle } from 'hono/lambda-edge'
+
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+export const handler = handle(app)
+```
+
+#### Node.js
+
+```ts
+import { serve } from '@hono/node-server'
+import { Hono } from 'hono'
+
+const app = new Hono()
+
+app.get('/', (c) => c.text('Hello Hono!'))
+
+serve(app)
+```
+
+## 3.8 揃っている
+
+コアは小さいが、ミドルウェアとヘルパーがある。
+
+### ミドルウェア
+
+- `Response`を返すものを「ハンドラ」と呼んでいる
+- その前後に実行され、`Request`と`Response`を扱うのがミドルウェア
+
+![onion](https://hono.dev/images/onion.png)
+
+- Honoのアプリを構成するのはミドルウェアとハンドラだけ
+
+### 3つのミドルウェア
+
+- ビルトインミドルウェア、3rdパーティミドルウェア、カスタムミドルウェアがある
+
+### ミドルウェアとヘルパーの例
+
+- [Basic Authentication](https://hono.dev/middleware/builtin/basic-auth)
+- [Bearer Authentication](https://hono.dev/middleware/builtin/bearer-auth)
+- [Cache](https://hono.dev/middleware/builtin/cache)
+- [Compress](https://hono.dev/middleware/builtin/compress)
+- [Cookie](https://hono.dev/helpers/cookie)
+- [CORS](https://hono.dev/middleware/builtin/cors)
+- [ETag](https://hono.dev/middleware/builtin/etag)
+- [html](https://hono.dev/helpers/html)
+- [JSX](https://hono.dev/guides/jsx)
+- [JWT Authentication](https://hono.dev/middleware/builtin/jwt)
+- [Logger](https://hono.dev/middleware/builtin/logger)
+- [Pretty JSON](https://hono.dev/middleware/builtin/pretty-json)
+- [Secure Headers](https://hono.dev/middleware/builtin/secure-headers)
+- [GraphQL Server](https://github.com/honojs/middleware/tree/main/packages/graphql-server)
+- [Firebase Authentication](https://github.com/honojs/middleware/tree/main/packages/firebase-auth)
+- [Sentry](https://github.com/honojs/middleware/tree/main/packages/sentry)
+- Others!
+
+### カスタムミドルウェア
+
+- `X-Response-Time`ヘッダを付与するミドルウェア
+
+```ts
+app.use('*', async (c, next) => {
+  const start = Date.now()
+  await next()
+  const end = Date.now()
+  c.res.headers.set('X-Response-Time', `${end - start}`)
+})
+```
+
+### JSX
+
+- 組み込みのJSXが使える
+
+```tsx
+import type { PropsWithChildren } from 'hono/jsx'
+
+const app = new Hono()
+
+const Layout = (props: PropsWithChildren) => {
+  return (
+    <html>
+      <body>{props.children}</body>
+    </html>
+  )
+}
+
+const Top = (props: PropsWithChildren<{ messages: string[] }>) => {
+  return (
+    <Layout>
+      <h1>Hello Hono!</h1>
+      <ul>
+        {props.messages.map((message) => {
+          return <li>{message}!!</li>
+        })}
+      </ul>
+    </Layout>
+  )
+}
+
+app.get('/', (c) => {
+  const messages = ['Good Morning', 'Good Evening', 'Good Night']
+  return c.html(<Top messages={messages} />)
+})
+```
+
+## 3.8 楽しいDX
+
+### TypeScript
+
+- HonoではアプリケーションをTypeScriptで書くことを推奨している
+- Cloudflare Workers、Deno、BunはTSからJSへのトランスパイルを意識する必要がない
+
+![SS](https://hono.dev/images/ss.png)
+
+### RPC
+
+- サーバー側の型を共有し、クライアントでも利用することでType-Safeにする
+- [tRPC](https://trpc.io/)よりカジュアルに使える
+- [Zod](https://zod.dev/)、[Zod Validator](https://github.com/honojs/middleware/tree/main/packages/zod-validator)、`hc` を使ったスタックがある
+
+#### APIを書く
+
+```ts
+import { Hono } from 'hono'
+
+const app = new Hono()
+
+app.get('/hello', (c) => {
+  return c.json({
+    message: `Hello!`,
+  })
+})
+```
+
+#### Zodでバリデーションをする
+
+![SC](https://hono.dev/images/sc01.gif)
+
+```ts
+import { zValidator } from '@hono/zod-validator'
+import { z } from 'zod'
+
+app.get(
+  '/hello',
+  zValidator(
+    'query',
+    z.object({
+      name: z.string(),
+    })
+  ),
+  (c) => {
+    const { name } = c.req.valid('query')
+    return c.json({
+      message: `Hello! ${name}`,
+    })
+  }
+)
+```
+
+#### 型を共有する
+
+- 返り値の型をとる
+
+```ts
+const route = app.get(
+  '/hello',
+  zValidator(
+    'query',
+    z.object({
+      name: z.string(),
+    })
+  ),
+  (c) => {
+    const { name } = c.req.valid('query')
+    return c.json({
+      message: `Hello! ${name}`,
+    })
+  }
+)
+
+export type AppType = typeof route
+```
+
+#### クライアントの実装
+
+- `hc()` でクライアントの作成
+- サーバーからの型をジェネリクスで渡す
+- URLのパスとリクエストのパラメータの補完が効く
+
+![SC](https://hono.dev/images/sc03.gif)
+
+```ts
+import { AppType } from './server'
+import { hc } from 'hono/client'
+
+const client = hc<AppType>('/api')
+const res = await client.hello.$get({
+  query: {
+    name: 'Hono',
+  },
+})
+```
+
+- レスポンスは`Response`オブジェクトなのでそのまま使える
+- ただし、`json()`で取り出したオブジェクトには型がつく
+
+![SC](https://hono.dev/images/sc04.gif)
+
+```ts
+const data = await res.json()
+console.log(`${data.message}`)
+```
+
+- APIの型を共有することで、サーバーサイドの変化をクライアントで気づくことになる
+
+![SS](https://hono.dev/images/ss03.png)
+
+### テスト
+
+- テストが簡単に書ける
+
+```ts
+describe('Example', () => {
+  test('GET /posts', async () => {
+    const res = await app.request('/posts')
+    expect(res.status).toBe(200)
+    expect(await res.text()).toBe('Many posts')
+  })
+})
+```
+
+- Testing Helperで`hc`が使える
+
+![output](https://github.com/yusukebe/sonik/assets/10682/60442c8e-1640-4131-b09e-d57b6e5f350c)
+
+```ts
+import { testClient } from 'hono/testing'
+
+it('test', async() => {
+  const app = new Hono().get('/search', (c) => c.json({ hello: 'world' }))
+  const res = await testClient(app).search.$get()
+
+  expect(await res.json()).toEqual({ hello: 'world' })
+})
+```
+
+## 3.10 Cloudflare + Hono を使ったアプリ例
+
+### r2-image-worker
+
+- [yusukebe/r2-image-worker](https://github.com/yusukebe/r2-image-worker)
+
+![SC](https://user-images.githubusercontent.com/10682/167978838-b3ef2d72-81ac-4058-b161-ccb2b4f0bc16.gif)
+
+# 4. 基本編
+
+## 4.1 初めてのCloudflare Workers
+
+### C3を使う
+
+- Create Cloudflare CLI
+
+```txt
+npm create cloudflare@latest
+
+Or
+
+yarn create cloudflare
+
+Or
+
+pnpm create cloudflare@latest
+
+Or
+
+bun create cloudflare
+```
+
+### "Hello World" Worker
+
+### `package.json`
+
+```json
+{
+	"name": "01-hello-world",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"cf-typegen": "wrangler types"
+	}
+}
+```
+
+### `src/index.ts`
+
+```ts
+export default {
+  async fetch(request, env, ctx): Promise<Response> {
+    return new Response('Hello World!')
+  },
+} satisfies ExportedHandler<Env>
+```
+
+### `fetch`の引数
+
+- `request` - `Request`オブジェクト
+- `env` - Bindingsの名前と値のレコード
+- `ctx` - `ExecutionContext`、つまり`waitUntil()`と`passThroughOnException()`
+
+### Workersアプリの流れ
+
+1. Requestを受け取る
+2. ロジック
+3. Responseを作る
+4. Responseを返す
+
+### `waitUntil()`
+
+```ts
+export default {
+  async fetch(request, env, ctx): Promise<Response> {
+    const log = async () => console.log('Foo')
+    ctx.waitUntil(log())
+    return new Response('Hello World!')
+  },
+} satisfies ExportedHandler<Env>
+```
+
+## 4.2 初めてのHono
+
+### `create hono`
+
+```txt
+npm create hono@latest
+
+Or
+
+yarn create hono
+
+Or
+
+pnpm create hono@latest
+
+Or
+
+bun create hono
+```
+
+### レスポンスを返す
+
+```ts
+app.get('/', (c) => {
+  return c.text('Hello!')
+})
+
+app.get('/json', (c) => {
+  return c.json({
+    message: 'Hello!',
+  })
+})
+
+app.get('/html', (c) => {
+  return c.json({
+    message: '<h1>Hello!</h1>',
+  })
+})
+
+app.get('/stream', (c) => {
+  return c.streamText(async (stream) => {
+    stream.sleep(1000)
+    stream.writeln('Hello!')
+  })
+})
+```
+
+Contextを通してレスポンスを作る
+
+```ts
+app.get('/welcome', (c) => {
+  // Set headers
+  c.header('X-Message', 'Hello!')
+  c.header('Content-Type', 'text/plain')
+
+  // Set HTTP status code
+  c.status(201)
+
+  // Return the response body
+  return c.body('Thank you for coming')
+})
+```
+
+以下と同じ
+
+```ts
+new Response('Thank you for coming', {
+  status: 201,
+  headers: {
+    'X-Message': 'Hello',
+    'Content-Type': 'text/plain',
+  },
+})
+```
+
+その他
+
+- `c.notFound()`
+- `c.redirect()`
+
+### ルーティング
+
+```ts
+// HTTP Methods
+app.get('/', (c) => c.text('GET /'))
+app.post('/', (c) => c.text('POST /'))
+app.put('/', (c) => c.text('PUT /'))
+app.delete('/', (c) => c.text('DELETE /'))
+
+// Wildcard
+app.get('/wild/*/card', (c) => {
+  return c.text('GET /wild/*/card')
+})
+
+// Any HTTP methods
+app.all('/hello', (c) => c.text('Any Method /hello'))
+
+// Custom HTTP method
+app.on('PURGE', '/cache', (c) => c.text('PURGE Method /cache'))
+
+// Multiple Method
+app.on(['PUT', 'DELETE'], '/post', (c) => c.text('PUT or DELETE /post'))
+
+// Path parameters
+app.get('/user/:name', (c) => {
+  const name = c.req.param('name')
+  ...
+})
+
+// Optional parameters
+// Will match `/api/animal` and `/api/animal/:type`
+app.get('/api/animal/:type?', (c) => c.text('Animal!'))
+
+// Regexp
+app.get('/post/:date{[0-9]+}/:title{[a-z]+}', (c) => {
+  const { date, title } = c.req.param()
+  ...
+})
+
+// Including a slash
+app.get('/posts/:filename{.+.png$}', (c) => {
+  //...
+})
+
+// Chained routes
+app
+  .get('/endpoint', (c) => {
+    return c.text('GET /endpoint')
+  })
+  .post((c) => {
+    return c.text('POST /endpoint')
+  })
+  .delete((c) => {
+    return c.text('DELETE /endpoint')
+  })
+```
+
+ルートを分ける
+
+```ts
+const book = new Hono()
+
+book.get('/', (c) => c.text('List Books')) // GET /book
+book.get('/:id', (c) => {
+  // GET /book/:id
+  const id = c.req.param('id')
+  return c.text('Get Book: ' + id)
+})
+book.post('/', (c) => c.text('Create Book')) // POST /book
+
+const app = new Hono()
+app.route('/book', book)
+```
+
+ホスト名でのルーティング
+
+```ts
+const app = new Hono({
+  getPath: (req) => req.url.replace(/^https?:\/(.+?)$/, '$1'),
+})
+
+app.get('/www1.example.com/hello', (c) => c.text('hello www1'))
+app.get('/www2.example.com/hello', (c) => c.text('hello www2'))
+```
+
+### Context
+
+Bindingsの取得
+
+```ts
+// Environment object for Cloudflare Workers
+app.get('*', async c => {
+  const counter = c.env.COUNTER
+  ...
+})
+```
+
+`c.set()` / `c.get()`
+
+```ts
+app.use('*', async (c, next) => {
+  c.set('message', 'Hono is cool!!')
+  await next()
+})
+
+app.get('/', (c) => {
+  const message = c.get('message')
+  return c.text(`The message is "${message}"`)
+})
+```
+
+`Variable`を`app`へ渡すことで型がつく
+
+```ts
+type Variables = {
+  message: string
+}
+
+const app = new Hono<{ Variables: Variables }>()
+```
+
+`c.var`
+
+`c.set()`でセットした変数へアクセスできる
+
+```ts
+const result = c.var.client.oneMethod()
+```
+
+その他
+
+- `c.executionCtx`
+- `c.event`
+- `c.error`
+
+### HonoRequest
+
+- `param()`
+- `query()`
+- `queries()`
+- `header()`
+- `parseBody()`
+- `json()`
+- `text()`
+- `arrayBuffer()`
+- `valid()`
+- `path`
+- `url`
+- `method`
+- `raw`
+
+# 5. プロキシ編
+
+[Cloudflare Workersプロキシパターン](https://zenn.dev/yusukebe/articles/647aa9ba8c1550)をやる
+
+## レスポンスヘッダの追加
+
+```ts
+import { Hono } from 'hono'
+
+const app = new Hono()
+
+app.all('*', async (c) => {
+  const res = await fetch(c.req.raw)
+  const newResponse = new Response(res.body, res)
+  newResponse.headers.set('X-Custom', 'Foo')
+  return newResponse
+})
+
+export default app
+```
+
+## CORS
+
+```ts
+app.use('/api/*', cors())
+```
+
+```ts
+app.use(
+  '/api2/*',
+  cors({
+    origin: 'http://example.com',
+    allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
+    allowMethods: ['POST', 'GET', 'OPTIONS'],
+    exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
+    maxAge: 600,
+    credentials: true,
+  })
+)
+```
+
+## Basic認証
+
+```ts
+app.use(
+  '/auth/*',
+  basicAuth({
+    username: 'yourname',
+    password: 'yoursecret',
+  })
+)
+```
+
+CloudflareのBindingsの変数を使う場合
+
+```ts
+app.use('/auth/*', async (c, next) => {
+  const auth = basicAuth({
+    username: c.env.USERNAME,
+    password: c.env.PASSWORD,
+  })
+  return auth(c, next)
+})
+```
+
+認証は以下のミドルウェアがある
+
+- Basic認証
+- Bearer認証
+- JWT認証
+
+## リダイレクト
+
+```ts
+app.get('/old/:id', async (c) => {
+  const id = c.req.param('id')
+  return c.redirect(`/new/${id}`)
+})
+```
+
+## オリジンの振り分け
+
+```ts
+const imageHost = 'http://imagehost'
+const fontHost = 'http://fonthost'
+
+app.get('/assets/:type{(?:images|fonts)}/:filename', async (c) => {
+  const { type, filename } = c.req.param()
+  const hostName = type === 'images' ? imageHost : fontHost
+  const url = new URL(`/${filename}`, hostName)
+  return fetch(url)
+})
+```
+
+## キャッシュ
+
+```ts
+app.get(
+  '/assets/*',
+  cache({
+    cacheName: 'my-app',
+  })
+)
+```
+
+## デバイス別の挙動変更
+
+```ts
+app.get('/pages/*', async (c) => {
+  let isMobile = false
+  const userAgent = c.req.header('User-Agent') || ''
+
+  if (userAgent.match(/(iPhone|iPod|Android|Mobile)/)) {
+    isMobile = true
+  }
+
+  const cache = caches.default
+
+  const device = isMobile ? 'Mobile' : 'Desktop'
+  const cacheKey = c.req.url + '-' + device
+
+  let response = await cache.match(cacheKey)
+
+  if (!response) {
+    response = await fetch(c.req.raw)
+    response = new Response(response.body, response)
+    response.headers.append('Cache-Control', 's-maxage=3600')
+    c.executionCtx.waitUntil(cache.put(cacheKey, response.clone()))
+  }
+
+  return response
+})
+```
+
+## HTMLタグの置換
+
+HTMLRewriterを使う
+
+```ts
+app.get('/pages/*', async (c) => {
+  const OLD_URL = 'oldhost'
+  const NEW_URL = 'newhost'
+
+  class AttributeRewriter {
+    constructor(attributeName) {
+      this.attributeName = attributeName
+    }
+    element(element) {
+      const attribute = element.getAttribute(this.attributeName)
+      if (attribute) {
+        element.setAttribute(this.attributeName,
+	  attribute.replace(OLD_URL, NEW_URL))
+      }
+    }
+  }
+
+  const rewriter = new HTMLRewriter().on('a', new AttributeRewriter('href'))
+
+  const res = await fetch(c.req.raw)
+  const contentType = res.headers.get('Content-Type')
+
+  if (contentType.startsWith('text/html')) {
+    return rewriter.transform(res)
+  } else {
+    return res
+  }
+})
+```
+
+## その他
+
+- ホットリンク禁止
+- 103 Early Hints
+- 動的コンテンツのキャッシュ
+- [Cloudflare Workersプロキシパターン](https://zenn.dev/yusukebe/articles/647aa9ba8c1550)
+
+# 6. Web API編
+
+以下基本をやる
+
+- JSONを返す
+- 変数を扱う
+- D1を使ってみよう
+- ロジック
+- バリデーション
+
+## 6.1 Blog APIをつくってみよう
+
+### D1の設定
+
+```txt
+npx wrangler d1 create blog
+npx wrangler d1 execute blog --local --file ./blog.sql
+npx wrangler d1 execute blog --local --command "INSERT INTO posts(id,title,content) VALUES('1','Hello','Nice day!')"
+npx wrangler d1 execute blog --local --command "SELECT * FROM posts"
+```
+
+### `wrangler.jsonc`
+
+```json
+{
+  "name": "05-web-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-16",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "blog",
+      "database_id": "xxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
+```
+
+```sql
+CREATE TABLE posts (
+  id TEXT PRIMARY KEY,
+  created_at TEXT DEFAULT (datetime('now')),
+  title TEXT,
+  content TEXT
+);
+```
+
+```txt
+npm i zod @hono/zod-validator
+```
+
+### 共通で使う型
+
+```ts
+import { z } from 'zod'
+
+export const schema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+})
+
+type Post = z.infer<typeof schema> & {
+  created_at: string
+  id: string
+}
+```
+
+### `GET /posts`の実装
+
+```ts
+const { results } = await c.env.DB.prepare(
+  'SELECT * FROM posts ORDER BY created_at DESC;'
+).all<Post>()
+```
+
+- Bindingsへは`c.env.DB`でアクセス
+- `all`へ`Post`型をジェネリクスで渡す
+
+### `POST /posts`の実装
+
+Zod Validatorを使う
+
+```ts
+import { zValidator } from '@hono/zod-validator'
+// ...
+app.post('/posts', zValidator('form', schema), async (c) => {
+  const { title, content } = c.req.valid('form')
+  // ...
+})
+```
+
+UUIDの生成
+
+```ts
+const id = crypto.randomUUID()
+```
+
+Insertの実行
+
+```ts
+const { success } = await c.env.DB.prepare(
+  'INSERT INTO posts(id, title, content) values (?, ?, ?)'
+)
+  .bind(id, title, content)
+  .run()
+```
+
+### デプロイ
+
+```txt
+npm run deploy
+```
+
+実際はWranglerを実行している
+
+```txt
+wrangler deploy --minify src/index.ts
+```
+
+# 7. フルスタック編
+
+## 7.1 BlogのUIもつくってみよう
+
+* 拡張子を`.tsx`にしてJSXを使おう
+* シンプルなSSRでの描画をする
+
+### 完成形
+
+![SS](https://ss.yusukebe.com/078500973a75457b0bd771c6aeea9c48fc308d605f7c114314a1e24235f1165e_800x535.png)
+
+### Rendererを定義する
+
+```tsx
+import { jsxRenderer } from 'hono/jsx-renderer'
+
+export const renderer = jsxRenderer(({ children }) => {
+  return (
+    <html lang='en'>
+      <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link
+          rel='stylesheet'
+          href='https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css'
+        />
+      </head>
+      <body>
+        <main class='container'>
+          <h1>
+            <a href='/'>Blog!</a>
+          </h1>
+          {children}
+          <div style='margin-top:2rem'>
+            <small>© 2025 your name</small>
+          </div>
+        </main>
+      </body>
+    </html>
+  )
+})
+```
+
+### Rendererを使う
+
+```tsx
+import { Hono } from 'hono'
+import { renderer } from './renderer'
+
+const app = new Hono<{ Bindings: CloudflareBindings }>()
+
+app.use(renderer)
+```
+
+### 一覧をHTMLで表示する
+
+```tsx
+app.get('/', async (c) => {
+  const { results: posts } = await c.env.DB.prepare(
+    'SELECT * FROM posts ORDER BY created_at DESC;'
+  ).all<Post>()
+  return c.render(
+    <div>
+      <title>Blog</title>
+      <form action='/' method='post'>
+        <div>
+          <label>Title</label>
+          <input type='text' name='title' />
+        </div>
+        <div>
+          <label>Content</label>
+          <textarea name='content'></textarea>
+        </div>
+        <button type='submit'>Submit</button>
+      </form>
+      {posts.map((post) => {
+        return (
+          <article>
+            <h2>{post.title}</h2>
+            <p>{post.content}</p>
+          </article>
+        )
+      })}
+    </div>
+  )
+})
+```
+
+### 記事を作る
+
+```tsx
+app.post(
+  '/',
+  zValidator('form', schema, (result, c) => {
+    if (!result.success) {
+      console.error(result.error.message)
+      return c.redirect('/')
+    }
+  }),
+  async (c) => {
+    const id = crypto.randomUUID()
+    const { title, content } = c.req.valid('form')
+
+    await c.env.DB.prepare('INSERT INTO posts(id, title, content) values (?, ?, ?)')
+      .bind(id, title, content)
+      .run()
+
+    return c.redirect('/')
+  }
+)
+```
+
+# 8. AI編
+
+## 8.1 リモートMCPサーバーをつくってみよう
+
+* ブログの仕組みをそのままリモートMCPにする
+* [`@hono/mcp`](https://github.com/honojs/middleware/tree/main/packages/mcp)と[`@modelcontextprotocol/sdk`](https://github.com/modelcontextprotocol/typescript-sdk)を使った認証レス、ステートレスの超簡易なもの
+* Cloudflareの[Agents SDK](https://developers.cloudflare.com/agents/guides/remote-mcp-server/)も使える
+* [https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp](https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp)
+
+### `@hono/mcp`を使う
+
+```ts
+import { Hono } from 'hono'
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { StreamableHTTPTransport } from '@hono/mcp'
+
+const app = new Hono<{ Bindings: CloudflareBindings }>()
+
+app.all('/mcp', async (c) => {
+  const transport = new StreamableHTTPTransport()
+
+  const mcpServer = new McpServer({
+    name: 'my-blog-mcp-server',
+    version: '1.0.0',
+  })
+
+  await mcpServer.connect(transport)
+  return transport.handleRequest(c)
+})
+
+export default app
+```
+
+### ツールの定義
+
+```ts
+app.all('/mcp', async (c) => {
+  const transport = new StreamableHTTPTransport()
+
+  const mcpServer = new McpServer({
+    name: 'my-blog-mcp-server',
+    version: '1.0.0',
+  })
+
+  mcpServer.tool('get_posts', async () => {
+    const { results: posts } = await c.env.DB.prepare(
+      'SELECT * FROM posts ORDER BY created_at DESC;'
+    ).all<Post>()
+    return {
+      content: [
+        {
+          type: 'text',
+          text: JSON.stringify(posts),
+        },
+      ],
+    }
+  })
+
+  mcpServer.tool(
+    'create_post',
+    { title: z.string(), content: z.string() },
+    async ({ title, content }) => {
+      const id = crypto.randomUUID()
+      const { success } = await c.env.DB.prepare(
+        'INSERT INTO posts(id, title, content) values (?, ?, ?)'
+      )
+        .bind(id, title, content)
+        .run()
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ success }),
+          },
+        ],
+      }
+    }
+  )
+
+  await mcpServer.connect(transport)
+  return transport.handleRequest(c)
+})
+```
+
+## 8.2 Workers AIを使ってみよう
+
+* 推論モデルを動かすだけなら簡単
+
+# 9. Honoをより深く使う
+
+## 9.1 他のランタイムで動かしてみよう
+
+1. aws-lambda
+2. bun
+3. cloudflare-pages
+4. cloudflare-workers
+5. deno
+6. fastly
+7. lagon
+8. lambda-edge
+9. netlify
+10. nextjs
+11. nodejs
+12. vercel
+
+## 9.2 大きなアプリケーションの構成
+
+- `app.route()`で繋いでいく
+
+## 9.3 アダプトとマウント
+
+### `app.mount()`
+
+- アダプターの他にマウントという概念
+- `fetch` APIならどんなアプリもマウントできる
+
+```ts
+// Create itty-router application
+const ittyRouter = IttyRouter()
+
+// Handle `GET /itty-router/hello`
+ittyRouter.get('/hello', () => new Response('Hello from itty-router!'))
+
+// Hono application
+const app = new Hono()
+
+// Hono application
+app.mount('/itty-router', ittyRouter.handle)
+```
+
+Honoはランタイムにアダプトし、フレームワークをマウントする
+
+![SS](https://github-production-user-asset-6210df.s3.amazonaws.com/10682/239415401-74247b3e-0e36-4bc2-9ccd-e98f99b49466.jpg)
+
+フレームワークAは各ランタイムへのアダプターを作りがち
+
+![SS](https://github-production-user-asset-6210df.s3.amazonaws.com/10682/239415510-d077dffb-da79-442f-803e-4c155f637b93.jpg)
+
+フレームワークAを各種ランタイムに対応させたければ、Hono上で動けばよい
+
+![SS](https://github-production-user-asset-6210df.s3.amazonaws.com/10682/239415546-38ed968f-69a4-4b41-baaa-5dac5cd69679.jpg)
+
+マウントすることでHonoのミドルウェアが使える
+
+```ts
+app.use('/another-app/admin/*', basicAuth({ username, password }))
+```
+
+# 10. その他
+
+- Containers
+  - [https://github.com/yusukebe/image-resize-containers](https://github.com/yusukebe/image-resize-containers)
+- Bindingsのテストについて
+- Vite plugins
+- HonoXについて
+
+## おまけ. この資料もWorkersでできてる
+
+* [https://github.com/yusukebe/cloudflare-workshop](https://github.com/yusukebe/cloudflare-workshope)
+
+## リンク集
+
+- [https://hono.dev/](https://hono.dev/)
+- [https://github.com/honojs/hono](https://github.com/honojs/hono)
+- [Cloudflare Workersプロキシパターン](https://zenn.dev/yusukebe/articles/647aa9ba8c1550)
+
