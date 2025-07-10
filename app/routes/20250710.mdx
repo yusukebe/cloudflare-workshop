@@ -126,10 +126,8 @@ CloudflareのリソースとWorkersを結ぶ
 
 ### Durable Objects
 
-- 同時に書き込み、トランザクション
-- 強整合性
+- ストレージを持ったWorkers
 - チャットなど、リアルアイム、動的コンテンツ
-- D1やR2はこの上に構築されている
 - KVは静的コンテンツや設定、DOは動的な状態管理
 - [Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/)
 
@@ -143,9 +141,7 @@ CloudflareのリソースとWorkersを結ぶ
 
 ### D1
 
-- Workers、Pagesから利用可能なSQLデータベース
-- オープンアルファ
-- SQLiteがDOで動いている
+- Workersから利用可能なSQLデータベース
 - [Cloudflare D1](https://developers.cloudflare.com/d1/)
 
 ### Service Bindings
