@@ -1,22 +1,18 @@
 ---
-title: 'Cloudflare Workers + Hono ワークショップ - ServerlessDays Tokyo 2023'
-url: 'https://workshop.yusuke.run/2023-09-24'
-imageUrl: 'https://ss.yusukebe.com/334038d5c2a675f12e962886d0a6feba9dae5717a53192e0eba5bee85247c0f2_800x592.png'
+title: 'Cloudflare Workers ワークショップ'
+url: 'https://workshop.yusuke.run/20251028'
+imageUrl: 'https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2716x1452.png'
 ---
 
-# Cloudflare Workers + Hono ワークショップ
-
-資料はこちら => workshop.yusuke.run
-
-`#serverlessdays`
+# Cloudflare Workers ワークショップ
 
 - Yusuke Wada
-- 2023-09-24 ServerlessDays Tokyo 2023
+- 2025-10-28
 - [workshop.yusuke.run](https://workshop.yusuke.run/)
 
 # アジェンダ
 
-1. ワークショップについて
+1. 自己紹介
 2. Workers イントロダクション
 3. Hono イントロダクション
 4. 基本編
@@ -27,25 +23,9 @@ imageUrl: 'https://ss.yusukebe.com/334038d5c2a675f12e962886d0a6feba9dae5717a5319
 9. Honoをより深く知る
 10. その他
 
-# 1. ワークショップについて
+# 1. 自己紹介
 
-## 1.1 対象
-
-### 対象者
-
-- Cloudflareでのアプリケーション作成に興味のある方
-- Honoを使ってみたい方
-- フロント、バックエンド問いません
-
-### 前提条件
-
-- Wranglerが動く環境をつくっておく
-- `npx wrangler` が動く
-- JavaScriptに対する知識があるとよい
-
-## 1.2 自己紹介
-
-### 自己紹介
+## 自己紹介
 
 - 和田裕介
 - 2023年4月〜 Developer Advocate @ Cloudflare
@@ -54,32 +34,84 @@ imageUrl: 'https://ss.yusukebe.com/334038d5c2a675f12e962886d0a6feba9dae5717a5319
 - [https://x.com/yusukebe](https://x.com/yusukebe)
 - [https://github.com/yusukebe](https://x.com/yusukebe)
 
-### Developer Relations チーム
+### Developer Relations
 
-- Emerging Technologies & Incubation 所属
-- Manager, Developer Advocate x 3, Community Manager x 2
-- NY, Austin, Amsterdam, Lisbon, SF, Tokyo
+- Developer GTM 所属
+- Emerging Technologies & Incubation に近いところにいる
+- Kristianのチームの中
+- Austin, Germany, Amsterdam, London, Tokyo
 
-### 時差すごい
-
-![SS](https://ss.yusukebe.com/9ed6a6aa390ff6dd31da5bec7a3e44f5160a5d24abdac2d91171906ad0c4fc21_800x425.png)
+![DevRel](https://ss.yusukebe.com/648eda5a8d452de07e283723ca682b8adcfc2babe1451445bac2e256c518fe42_2300x1188.png)
 
 ### やってること
 
-- Honoの開発
-- チュートリアルの作成
-- イベント登壇
-- イベント開催
-- ワークショップ講師
-- 頑張っています
+1. Honoの開発
+2. イベント開催
+3. イベント登壇
+4. その他
+
+### Workers Tech Talks
+
+> Cloudflare Workersとその周辺のプロダクトを使う開発者、ライブラリ作者による開発者のためのWorkersに特化したテックトークです。
+
+- [Cloudflare Workers Tech Talks in Tokyo #1](https://blog.yusu.ke/workers-tech-talks-1/)
+- [Cloudflare Workers Tech Talks in Tokyo #2](https://blog.yusu.ke/workers-tech-talks-2/)
+- [Cloudflare Workers Tech Talks in Osaka #1](https://blog.yusu.ke/workers-tech-talks-osaka-1/)
+- [Cloudflare Workers Tech Talks in Tokyo #3](https://blog.yusu.ke/workers-tech-talks-3/)
+- [Cloudflare Workers Tech Talks in Tokyo #4](https://blog.yusu.ke/workers-tech-talks-4/)
+- [Cloudflare Workers Tech Talks in Osaka #2](https://blog.yusu.ke/workers-tech-talks-osaka-2/)
+- [Cloudflare Workers Tech Talks in Tokyo #5](https://blog.yusu.ke/workers-tech-talks-5/)
+- [Cloudflare Workers Tech Talks in Kyoto #1](https://blog.yusu.ke/workers-tech-talks-kyoto-1/)
+- [Cloudflare Workers Tech Talks in Niigata #1](https://blog.yusu.ke/workers-tech-talks-niigata-1/)
+- [Cloudflare Workers Tech Talks in Hokkaido #1](https://blog.yusu.ke/workers-tech-talks-hokkaido-1/)
+
+#### Workers Tech Talks in Tokyo #5
+
+![Workers Tech Talks in Tokyo 5](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
 
 # 2. Workers イントロダクション
 
-## 2.1 Cloudflare Workers/Pagesについて
+## 2.1 開発者プラットフォーム
 
-- Cloudflareのエッジで実行されるサーバーレス環境
+- Cloudflareには開発者プラットフォームがあります
+- Cloudflareにあるたくさんのプロダクトの一部
+- Cloudflare Workersを中心としたサーバーレスの環境
+- 実際に手を動かす「開発者」向け
 
-### Cloudflare Workers
+![Dev Platform](https://ss.yusukebe.com/7dcd2b8894ec45b14a8d3900fbe942f6af74c020c10c3660421b488bfc9cf06e_774x430.png)
+
+### 何ができるのか？
+
+- Webアプリケーションの構築
+- CDNで実行されるアプリケーション
+
+### Webアプリケーションの構築
+
+![Webapp](https://ss.yusukebe.com/49dce2878807866487d7c655134145d72cc631bb544845e4eb1bdc12e2b8aab5_1972x936.png)
+
+### CDNで実行されるアプリケーション
+
+![CDN](https://ss.yusukebe.com/3f362351da2bc46b8a02290ecf454b666f9c99b6d0cf4c46a42e8fc3f87bde55_2170x904.png)
+
+### 特徴
+
+![特徴](https://ss.yusukebe.com/9218d5c39470c583eaba1f9cf371e9a040c7cc90847ace1704204e74837bc4a4_1856x1034.png)
+
+### Cloudflareの全プロダクト
+
+![プロダクト](https://ss.yusukebe.com/b9441f8586ad507d1e4c6a03b79bda8b96f52d39b4f1ee605e3781b2b5a0bd0b_1888x1088.png)
+
+### 開発者プラットフォームのプロダクト
+
+![プロダクト](https://ss.yusukebe.com/3fd4f201e215bfe0a79dde266882c120d6ccf83b9a5e9c3ab18518c6ee5d0524_2014x914.png)
+
+[https://developers.cloudflare.com/products/?product-group=Developer+platform](https://developers.cloudflare.com/products/?product-group=Developer+platform)
+
+## 2.2 Cloudflare Workers
+
+- 開発者プラットフォームのベースになる
+- 開発者プラットフォームのプロダクトはWorkersが前提で作られている
+- Cloudflareのネットワークで実行されるサーバーレス環境
 
 > Build serverless applications and deploy instantly across the globe for exceptional performance, reliability, and scale.
 >
@@ -87,32 +119,32 @@ imageUrl: 'https://ss.yusukebe.com/334038d5c2a675f12e962886d0a6feba9dae5717a5319
 >
 > https://developers.cloudflare.com/workers/
 
-### Cloudflare Pages
-
-> Deploy dynamic front-end applications in record time.
->
-> 動的なフロントエンド・アプリケーションを記録的な速さで展開。
->
-> https://developers.cloudflare.com/pages/
-
-## 2.2 Cloudflare Workers
-
 - 設定、メンテ必要なしのサーバーレス環境を提供
-- Cloudflareのエッジに即座にデプロイされる
-- フリープランでだいぶ遊べる
-- [Workers Playground](https://workers.cloudflare.com/playground)
+- JavaScript/Pythonで記述可能
+- WASMも動く
+- Bindingsで各プロダクトに接続可能
+- Cloudflareのネットワークに即座にデプロイされる
+- フリープランで使うことができる
+- [Workers Playground](https://workers.new) - [https://workers.new](https://workers.new)
 
 ### Cloudflare Workersの思想
 
 ![SS](https://ss.yusukebe.com/4ad5531eece2c6dd3d39c00c79a70cc2a213809ace6144b16efba0d03e30b2e0_800x303.png)
 
-- [Cloudflare Workersのご紹介：エッジでJavaScript Service Workersを実行する](https://blog.cloudflare.com/ja-jp/introducing-cloudflare-workers-ja-jp/)
+- [Cloudflare Workersのご紹介: エッジでJavaScript Service Workersを実行する](https://blog.cloudflare.com/ja-jp/introducing-cloudflare-workers-ja-jp/)
 - 2017年9月の記事
-- Cloudflareのエッジをプログラム可能にする
+- Cloudflareのネットワークをプログラム可能にする
 - 検討した結果JavaScriptに行き着く
 - V8を採用、複数のユーザーのスクリプトを安全に実行
-- Service Worker APIを採用、ブラウザ用だが実はエッジにも適している
+- Service Worker APIを採用、ブラウザ用だが実はサーバーサイドにも適している
 - Web APIとして賢く設計されている
+- コンテナではできないことができる
+  - スタートアップが速い
+  - コールドスタートがない
+  - CPUスロットリングがない
+  - リソースのリミットを考える必要がない
+
+![v8](https://ss.yusukebe.com/1f4b6eb1f13c4af89478337861541716493f4d387ef48b33ebb718d3a2bcbe62_982x818.png)
 
 ### Wrangler
 
@@ -125,7 +157,7 @@ imageUrl: 'https://ss.yusukebe.com/334038d5c2a675f12e962886d0a6feba9dae5717a5319
 
 ## 2.3 Bindings
 
-CloudflareのリソースとWorkersを結ぶ
+CloudflareのプロダクトとWorkersを結ぶ
 
 - KV
 - Durable Objects
@@ -134,24 +166,24 @@ CloudflareのリソースとWorkersを結ぶ
 - Service Bindings
 - Queue
 - Email
-- Constellation
+- Workers AI
+- Containers
 - など
+
+以下プロダクトの説明
 
 ### KV
 
 - 素朴なAPIを備えたKey-Value store
 - アクセスされたらキャッシュされる
 - キャッシュされると静的ファイルのように速い
-- Workers sites (非推奨) もKVでできてる
 - 書き込み後の反映に60秒かかることもある
 - [How KV works](https://developers.cloudflare.com/workers/learning/how-kv-works/)
 
 ### Durable Objects
 
-- 同時に書き込み、トランザクション
-- 強整合性
+- ストレージを持ったWorkers
 - チャットなど、リアルアイム、動的コンテンツ
-- D1やR2はこの上に構築されている
 - KVは静的コンテンツや設定、DOは動的な状態管理
 - [Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/)
 
@@ -165,9 +197,7 @@ CloudflareのリソースとWorkersを結ぶ
 
 ### D1
 
-- Workers、Pagesから利用可能なSQLデータベース
-- オープンアルファ
-- SQLiteがDOで動いている
+- Workersから利用可能なSQLデータベース
 - [Cloudflare D1](https://developers.cloudflare.com/d1/)
 
 ### Service Bindings
@@ -191,21 +221,7 @@ CloudflareのリソースとWorkersを結ぶ
 - `email`で受け取り
 - [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/)
 
-### Constellation
-
-- ベータ
-- Workersで機械学習モデルを動かす
-- 予め学習済みのデータを使用
-- [Constellation](https://developers.cloudflare.com/constellation/)
-
-## 2.4 Cloudflare Pages
-
-- フルスタックアプリケーション用
-- 各種フレームワークが動く
-- FunctionsでWorkersが動く
-- [Cloudflare Pages](https://developers.cloudflare.com/pages/)
-
-## 2.5 Workersを知るために
+## 2.4 Workersを知るために
 
 ### リソース
 
@@ -214,100 +230,49 @@ CloudflareのリソースとWorkersを結ぶ
 - [チュートリアル](https://developers.cloudflare.com/workers/tutorials/)
 - [Discord](https://discord.gg/cloudflaredev)
 - サードパーティの記事
-- イベント
-  - [Cloudflare Workers Tech Talks #1](https://blog.yusu.ke/workers-tech-talks-1/)
-  - [Cloudflare Meet-up - connpass](https://cfm-cts.connpass.com/)
-
-## 2.6 その他のエッジで実行されるプラットフォーム
-
-- Fastly Compute@Edge
-- AWS CloudFront Functions
-- AWS Lambda@Edge
-- Deno Deploy
-- Vercel Edge Functions
-- Netlify Functions
-- Lagon
-- その他
 
 # 3. Hono イントロダクション
 
-## 3.1 Honoとは？
+## 3.1 Honoとは?
 
 副題
 
-> Ultrafast framework for the Edges
+> Fast, lightweight, built on Web Standards. Support for any JavaScript runtime.
 
-もしくは
-
-> The Web Framework built on Web Standards
->
-> Lightweight, Ultrafast, Web Standards
-
-> 軽量で、速くて、Web標準を使っている
+- [https://hono.dev](https://hono.dev)
+- [The story of web framework Hono, from the creator of Hono - The Cloudflare Blog](https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono/)
 
 ## 3.2 ユースケース
 
 - Web APIの作成
 - バックエンドサーバーのプロキシ
 - CDNのフロント
-- エッジアプリケーション
 - ライブラリのベースサーバー
 - フルスタックアプリ
 
 ## 3.3 どこで使われているか？
 
-主に4つのプラットフォーム
+- Nodecraft
+- OpenStatus
+- Unkey
+- Goens
+- NOT A HOTEL
+- CyberAgent
+- Shift
+- Hanabi.rest
+- BaseAI
+- Mastra
+- その他
 
-- Cloudflare Workers
-- Fastly Compute@Edge
-- Deno
-- Bun
+### Who is using Hono in production?
 
-### Cloudflare Workers
-
-- [cdnjs API Server](https://cdnjs.com/api)
-- [Drivly](https://driv.ly/)
-- [repeat.dev](https://repeat.dev/)
-- [drizzle-orm - Examples](https://github.com/drizzle-team/drizzle-orm)
-- Cloudflare 公式ドキュメント、チュートリアル
-  - [Cloudflare D1で静的サイトを動的サイトに](https://blog.cloudflare.com/ja-jp/making-static-sites-dynamic-with-cloudflare-d1-ja-jp/)
-  - [Query D1 from Hono · Cloudflare D1 docs](https://developers.cloudflare.com/d1/examples/d1-and-hono/)
-  - [Build a Comments API · Cloudflare D1 docs](https://developers.cloudflare.com/d1/tutorials/build-a-comments-api/)
-- Cloudflare Workers SDK
-  - [workers-sdk/packages/playground-preview-worker](https://github.com/cloudflare/workers-sdk/tree/main/packages/playground-preview-worker)
-  - [workers-sdk/packages/turbo-r2-archive](https://github.com/cloudflare/workers-sdk/tree/main/packages/turbo-r2-archive)
-- Cloudflare社内
-
-### Fastly Compute@Edge
-
-- [Polyfill.io](https://www.polyfill.io/v3/)
-
-### Deno
-
-- Deno本体
-- [Deno Docs](https://docs.deno.com/runtime/manual)
-- [Deno Benchmarks](https://deno.land/benchmarks)
-- [Ultra](https://ultrajs.dev/)
-
-### Bun
-
-![SS](https://ss.yusukebe.com/26d3d33bde5455b3373698c0bd3b18e675c233ee9f338ec1c4dd107ed5147d88_800x449.png)
-
-- https://www.youtube.com/watch?v=BsnCpESUEqM&t=358s
-
-### Awesome Hono
-
-- [Awesome Hono](https://awesome-hono.y-nkt.workers.dev/)
-
-### Honoを使うべきか？
-
-ベンチマーク
+- [https://github.com/orgs/honojs/discussions/1510](https://github.com/orgs/honojs/discussions/1510)
 
 ## 3.4 5つの特徴
 
 - 速い 🚀 - RegExpRouterはマジで速い。リニアにルーティングしません。
 - 軽量 🪶 - `hono/tiny`プリセットは12kB。HonoはWeb Standard APIのみを使っていて依存0。
-- マルチランタイム 🌍 - Cloudflare Workers, Fastly Compute@Edge, Deno, Bun, Lagon, AWS Lambda, or Node.js。同じコードが全てのランタイム/プラットフォームで動きます。
+- マルチランタイム 🌍 - Cloudflare Workers, Fastly Compute, Deno, Bun, AWS Lambda, or Node.js。同じコードが全てのランタイム/プラットフォームで動きます。
 - 揃っている 🔋 - Honoにはビルトインミドルウェア、カスタムミドルウェア、3rdパーティミドルウェアがあります。やりたいことが揃っています。
 - 楽しいDX 🛠️ - 綺麗なAPI。そしてTypeScriptのサポート。そう型があるのです。
 
@@ -441,9 +406,9 @@ RegExpRouter, SmartRouter, LinearRouter, PatternRouterは [@usualomaさん](http
 あらかじめ、おすすめのルーターのセッティングをプリセットとして提供している。
 
 > - `hono`:
->   ほとんどのユースケースでオススメです。ルーティング登録が`hono/quick`より遅いとはいえ、一度登録されれば高いパフォーマンスを発揮します。**Deno**や**Bun**、それに**Node.js**などを使った常駐型のサーバーには最適です。また、**Cloudflare Workers**や**Deno Deploy**、**Lagon**でもこのプリセットを使えばいいでしょう。というのもこれらのようなv8 isolateを使った環境では、isolateは起動後しばらく行き続けるからです（時間が決まっていたり、メモリなどの状況に応じて変化したりします）。
+>   ほとんどのユースケースでオススメです。ルーティング登録が`hono/quick`より遅いとはいえ、一度登録されれば高いパフォーマンスを発揮します。**Deno**や**Bun**、それに**Node.js**などを使った常駐型のサーバーには最適です。また、**Cloudflare Workers**や**Deno Deploy**でもこのプリセットを使えばいいでしょう。というのもこれらのようなv8 isolateを使った環境では、isolateは起動後しばらく行き続けるからです（時間が決まっていたり、メモリなどの状況に応じて変化したりします）。
 > - `hono/quick`:
->   このプリセットはリクエストのたびにアプリケーションが初期化されるような環境に適しています。**Fastly Compute@Edge**はこれに従うので、このプリセットを使うといいでしょう。
+>   このプリセットはリクエストのたびにアプリケーションが初期化されるような環境に適しています。
 > - `hono/tiny`:
 >   このプリセットは一番ファイルサイズの小さいプリセットです。リソースが限られている環境にはいいでしょう。
 
@@ -475,36 +440,29 @@ export default {
 - `FormData`
 - [Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API)
 
-#### 面白いAPI
-
-- [`URLPattern`](https://developer.mozilla.org/en-US/docs/Web/API/URLPattern)
-  - これを利用してルーターを作った
-  - [yusukebe/pico: Ultra-tiny router for Cloudflare Workers and Deno](https://github.com/yusukebe/pico)
-  - path-to-regexpと似た実装
-  - Bunにはない
-
-### スターターのテンプレートは12種類
+### スターターのテンプレートは13種類
 
 1. aws-lambda
 2. bun
 3. cloudflare-pages
 4. cloudflare-workers
-5. deno
-6. fastly
-7. lagon
+5. cloudflare-workers+vite
+6. deno
+7. fastly
 8. lambda-edge
 9. netlify
 10. nextjs
 11. nodejs
 12. vercel
+13. x-basic
 
 ### CIでは9種類のランタイムのテストが走る
 
-![CI](https://ss.yusukebe.com/78b00758a08ac5d798648c403d9793ca0b84d45fb80fccc801628ce1fb9325c2_800x639.png)
+![CI](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_1334x1080.png)
 
 ### エントリポイントが違うだけ
 
-#### Cloudflare Workers & Bun
+#### Cloudflare Workers & Bun & Vercel
 
 ```ts
 import { Hono } from 'hono'
@@ -515,21 +473,23 @@ app.get('/', (c) => c.text('Hello Hono!'))
 export default app
 ```
 
-#### Fastly Compute@Edge
+#### Fastly Compute
 
 ```ts
 import { Hono } from 'hono'
+import { fire } from '@fastly/hono-fastly-compute'
+
 const app = new Hono()
 
-app.get('/', (c) => c.text('Hello Hono!'))
+app.get('/', (c) => c.text('Hello Fastly!'))
 
-app.fire()
+fire(app)
 ```
 
 #### Deno
 
 ```ts
-import { Hono } from 'https://deno.land/x/hono@vv3.7.1/mod.ts'
+import { Hono } from '@hono/hono'
 
 const app = new Hono()
 
@@ -538,56 +498,17 @@ app.get('/', (c) => c.text('Hello Hono!'))
 Deno.serve(app.fetch)
 ```
 
-#### Lagon
-
-```ts
-import { Hono } from 'hono'
-const app = new Hono()
-
-app.get('/', (c) => c.text('Hello Hono!'))
-
-export const handler = app.fetch
-```
-
-#### Cloudflare Pages
-
-```ts
-import { Hono } from 'hono'
-import { handle } from 'hono/cloudflare-pages'
-
-const app = new Hono()
-
-app.get('/', (c) => c.text('Hello Hono!'))
-
-export const onRequest = handle(app)
-```
-
-#### Vercel
-
-```ts
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
-
-export const config = {
-  runtime: 'edge',
-}
-
-const app = new Hono()
-
-app.get('/', (c) => c.text('Hello Hono!'))
-
-export default handle(app)
-```
-
 #### Netlify
 
 ```ts
-import { handle } from 'https://deno.land/x/hono@v3.7.1/adapter/netlify/mod.ts'
-import { Hono } from 'https://deno.land/x/hono@v3.7.1/mod.ts'
+import { Hono } from 'jsr:@hono/hono'
+import { handle } from 'jsr:@hono/hono/netlify'
 
 const app = new Hono()
 
-app.get('/', (c) => c.text('Hello Hono!'))
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+})
 
 export default handle(app)
 ```
@@ -686,11 +607,11 @@ app.use('*', async (c, next) => {
 - 組み込みのJSXが使える
 
 ```tsx
-import type { FC } from 'hono/jsx'
+import type { PropsWithChildren } from 'hono/jsx'
 
 const app = new Hono()
 
-const Layout: FC = (props) => {
+const Layout = (props: PropsWithChildren) => {
   return (
     <html>
       <body>{props.children}</body>
@@ -698,9 +619,7 @@ const Layout: FC = (props) => {
   )
 }
 
-const Top: FC<{ messages: string[] }> = (props: {
-  messages: string[]
-}) => {
+const Top = (props: PropsWithChildren<{ messages: string[] }>) => {
   return (
     <Layout>
       <h1>Hello Hono!</h1>
@@ -775,10 +694,7 @@ app.get(
 
 #### 型を共有する
 
-- `c.json()`を`c.jsonT()`にする
 - 返り値の型をとる
-
-![SC](https://hono.dev/images/sc02.gif)
 
 ```ts
 const route = app.get(
@@ -791,7 +707,7 @@ const route = app.get(
   ),
   (c) => {
     const { name } = c.req.valid('query')
-    return c.jsonT({
+    return c.json({
       message: `Hello! ${name}`,
     })
   }
@@ -857,7 +773,7 @@ import { testClient } from 'hono/testing'
 
 it('test', async () => {
   const app = new Hono().get('/search', (c) =>
-    c.jsonT({ hello: 'world' })
+    c.json({ hello: 'world' })
   )
   const res = await testClient(app).search.$get()
 
@@ -903,17 +819,13 @@ bun create cloudflare
 
 ```json
 {
-  "name": "curly-leaf-e7ce",
+  "name": "01-hello-world",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
-    "start": "wrangler dev"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230419.0",
-    "typescript": "^5.0.4",
-    "wrangler": "^3.0.0"
+    "dev": "wrangler dev",
+    "cf-typegen": "wrangler types"
   }
 }
 ```
@@ -921,18 +833,11 @@ bun create cloudflare
 ### `src/index.ts`
 
 ```ts
-export interface Env {}
-
-// ExportedHandler
 export default {
-  async fetch(
-    request: Request,
-    env: Env,
-    ctx: ExecutionContext
-  ): Promise<Response> {
+  async fetch(request, env, ctx): Promise<Response> {
     return new Response('Hello World!')
   },
-}
+} satisfies ExportedHandler<Env>
 ```
 
 ### `fetch`の引数
@@ -952,12 +857,12 @@ export default {
 
 ```ts
 export default {
-  async fetch(_req, _env, ctx) {
+  async fetch(request, env, ctx): Promise<Response> {
     const log = async () => console.log('Foo')
     ctx.waitUntil(log())
-    return new Response('Hello')
+    return new Response('Hello World!')
   },
-} as ExportedHandler
+} satisfies ExportedHandler<Env>
 ```
 
 ## 4.2 初めてのHono
@@ -1380,63 +1285,34 @@ app.get('/pages/*', async (c) => {
 - 変数を扱う
 - D1を使ってみよう
 - ロジック
-- テストする
 - バリデーション
 
 ## 6.1 Blog APIをつくってみよう
 
-### 雛形をダウンロード
-
-```txt
-npx degit yusukebe/cloudflare-workshop-examples/projects/starter-web-api starter-web-api
-```
-
-### ディレクトリ構成
-
-```txt
-$ tree ./
-./
-├── blog.sql
-├── package.json
-├── src
-│   └── index.ts
-├── test
-│   └── index.test.ts
-├── tsconfig.json
-├── vitest.config.ts
-└── wrangler.sample.toml
-```
-
 ### D1の設定
 
 ```txt
-wrangler d1 create blog
-wrangler d1 execute blog --local --file ./blog.sql
-wrangler d1 execute blog --local --command "INSERT INTO posts(id,title,content) VALUES('1','Hello','Nice day!')"
-wrangler d1 execute blog --local --command "SELECT * FROM posts"
+npx wrangler d1 create blog
+npx wrangler d1 execute blog --local --file ./blog.sql
+npx wrangler d1 execute blog --local --command "INSERT INTO posts(id,title,content) VALUES('1','Hello','Nice day!')"
+npx wrangler d1 execute blog --local --command "SELECT * FROM posts"
 ```
 
-### `wrangler.toml`
+### `wrangler.jsonc`
 
-```toml
-name = "blog"
-compatibility_date = "2023-01-01"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "blog"
-database_id = ""
-
-# [vars]
-# MY_VARIABLE = "production_value"
-
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+```json
+{
+  "name": "05-web-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-16",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "blog",
+      "database_id": "xxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
 ```
 
 ```sql
@@ -1457,15 +1333,12 @@ npm i zod @hono/zod-validator
 ```ts
 import { z } from 'zod'
 
-const schema = z.object({
+export const schema = z.object({
   title: z.string().min(1),
   content: z.string().min(1),
 })
 
-export type Bindings = {
-  DB: D1Database
-}
-export type Post = z.infer<typeof schema> & {
+type Post = z.infer<typeof schema> & {
   created_at: string
   id: string
 }
@@ -1525,647 +1398,269 @@ wrangler deploy --minify src/index.ts
 
 # 7. フルスタック編
 
-- Pages
-- Pagesの仕組みについて
-- JSX
-
 ## 7.1 BlogのUIもつくってみよう
+
+- 拡張子を`.tsx`にしてJSXを使おう
+- シンプルなSSRでの描画をする
 
 ### 完成形
 
 ![SS](https://ss.yusukebe.com/078500973a75457b0bd771c6aeea9c48fc308d605f7c114314a1e24235f1165e_800x535.png)
 
-### 雛形のダウンロード
+### Rendererを定義する
 
-```txt
-npx degit yusukebe/cloudflare-workshop-examples/projects/starter-pages pages
+```tsx
+import { jsxRenderer } from 'hono/jsx-renderer'
+
+export const renderer = jsxRenderer(({ children }) => {
+  return (
+    <html lang='en'>
+      <head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1'
+        />
+        <link
+          rel='stylesheet'
+          href='https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css'
+        />
+      </head>
+      <body>
+        <main class='container'>
+          <h1>
+            <a href='/'>Blog!</a>
+          </h1>
+          {children}
+          <div style='margin-top:2rem'>
+            <small>© 2025 your name</small>
+          </div>
+        </main>
+      </body>
+    </html>
+  )
+})
 ```
 
-### ディレクトリ構造
+### Rendererを使う
 
-```txt
-$ tree .
-.
-├── front
-│   ├── App.tsx // Reactアプリ
-│   └── main.tsx // クライントのエントリポイント
-├── index.html // エントリポイント
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── wrangler.sample.toml
-```
-
-### プロキシさせてViteを使う
-
-```txt
-wrangler pages dev --compatibility-date=2023-01-01 -- vite
-```
-
-### Functionsを使う
-
-```ts
-// functions/api/[[route]].ts
+```tsx
 import { Hono } from 'hono'
-import { handle } from 'hono/cloudflare-pages'
-import app from '../../server'
+import { renderer } from './renderer'
 
-const main = new Hono()
-main.route('/api', app)
+const app = new Hono<{ Bindings: CloudflareBindings }>()
 
-export const onRequest = handle(main)
+app.use(renderer)
 ```
 
-### RPCモードを使う
+### 一覧をHTMLで表示する
 
-```ts
-// front/App.tsx
-const client = hc<AppType>('/api')
-const res = await client.posts.$get()
-const { posts } = await res.json()
-setPosts(posts)
-```
-
-## 7.2 SSRでつくってみよう
-
-### 完成品のダウンロード
-
-```txt
-npx degit yusukebe/cloudflare-workshop-examples/projects/ssr ssr
-```
-
-## 7.3 R2画像アップローダーをつくってみよう
-
-### 完成品のダウンロード
-
-```txt
-npx degit yusukebe/image-tag image-tag
-```
-
-### ディレクトリ構成
-
-```txt
-tree .
-.
-├── .dev.vars
-├── .gitignore
-├── README.md
-├── package.json
-├── schema.sql
-├── src
-│   ├── index.tsx
-│   └── renderer.ts
-├── tsconfig.json
-└── wrangler.toml
-```
-
-### R2のバケットをつくる
-
-```txt
-npx wrangler r2 bucket create image-tag
-```
-
-### D1のデータベースをつくる
-
-スキーマ
-
-```sql
-CREATE TABLE images (
-  id TEXT PRIMARY KEY,
-  created_at TEXT DEFAULT (datetime('now')),
-  tag TEXT
-);
-```
-
-実行
-
-```txt
-npx wrangler d1 create image-tag
-npx wrangler d1 execute image-tag --local --file=./schema.sql
-```
-
-### シークレットのつくり方
-
-ローカルでは`.dev.vars`に値を入れる
-
-```txt
-BASIC_AUTH_USERNAME=foo
-BASIC_AUTH_PASSWORD=bar
-```
-
-リモートではダッシュボードからやる
-
-### TSX
-
-```
-mv src/index.ts src/.index.tsx
-```
-
-### `src/renderer.ts`
-
-```ts
-import { Context } from 'hono'
-import { html } from 'hono/html'
-
-export const renderer = (c: Context) => (content: string) => {
-  return c.html(
-    html`<!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-          />
-        </head>
-        <body>
-          <main class="container">${content}</main>
-        </body>
-      </html>`
-  )
-}
-```
-
-### `src/index.ts`
-
-Bindings
-
-```ts
-type Bindings = {
-  DB: D1Database
-  BUCKET: R2Bucket
-  BASIC_AUTH_USERNAME: string
-  BASIC_AUTH_PASSWORD: string
-}
-```
-
-`Image`
-
-```ts
-type Image = {
-  id: string
-  tag: string
-  created_at: string
-}
-```
-
-Rendererの登録
-
-```ts
-app.get('*', async (c, next) => {
-  c.setRenderer(renderer(c))
-  await next()
-})
-```
-
-`POST /`
-
-```ts
-const schema = z.object({
-  file: z.instanceof(File),
-  tag: z.string().min(1),
-})
-
-app.post('/', zValidator('form', schema), async (c) => {
-  const { file, tag } = c.req.valid('form')
-  const id = crypto.randomUUID()
-  if (file instanceof File) {
-    const data = await file.arrayBuffer()
-    const object = await c.env.BUCKET.put(id, data, {
-      httpMetadata: {
-        contentType: file.type,
-      },
-    })
-    if (object) {
-      console.log(`${object.key} is uploaded!`)
-      const { success } = await c.env.DB.prepare(
-        'INSERT INTO images(id,tag) VALUES(?,?)'
-      )
-        .bind(id, tag)
-        .run()
-      if (!success) {
-        return c.text('Something went wrong', 500)
-      }
-    }
-  }
-  return c.redirect('/')
-})
-```
-
-`GET /file/:fileName`
-
-```ts
-app.get('/file/:fileName', async (c) => {
-  const object = await c.env.BUCKET.get(c.req.param('fileName'))
-  if (object) {
-    c.header('content-type', object.httpMetadata?.contentType)
-    return c.body(await object.arrayBuffer())
-  }
-  return c.notFound()
-})
-```
-
-`GET /`
-
-```ts
+```tsx
 app.get('/', async (c) => {
-  const { results } = await c.env.DB.prepare('SELECT * FROM images ORDER BY created_at DESC').all<Image>()
-  const images = results
-
+  const { results: posts } = await c.env.DB.prepare(
+    'SELECT * FROM posts ORDER BY created_at DESC;'
+  ).all<Post>()
   return c.render(
-    <>
-      <h1>Top!</h1>
-      <form method="POST" action="/" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" />
-        <input type="text" name="tag" />
-        <button type="submit">Submit</button>
+    <div>
+      <title>Blog</title>
+      <form action='/' method='post'>
+        <div>
+          <label>Title</label>
+          <input type='text' name='title' />
+        </div>
+        <div>
+          <label>Content</label>
+          <textarea name='content'></textarea>
+        </div>
+        <button type='submit'>Submit</button>
       </form>
-      <div>
-        {images.map((image) => {
-          return (
-            <div>
-              <h3>{image.tag}</h3>
-              <img src={`/file/${image.id}`} />
-            </div>
-          )
-        })}
-      </div>
-    </>
+      {posts.map((post) => {
+        return (
+          <article>
+            <h2>{post.title}</h2>
+            <p>{post.content}</p>
+          </article>
+        )
+      })}
+    </div>
   )
 })
 ```
 
-Basic認証のためのミドルウェア
+### 記事を作る
 
-```ts
-const myBasicAuth = middleware<{
-  Bindings: Bindings
-}>(async (c, next) => {
-  const auth = basicAuth({
-    username: c.env.BASIC_AUTH_USERNAME,
-    password: c.env.BASIC_AUTH_PASSWORD,
-  })
-  return await auth(c, next)
-})
-```
-
-`GET /api/random`
-
-```ts
-const querySchema = z.object({
-  tag: z.string().min(1),
-})
-
-app.get(
-  '/api/random',
-  zValidator('query', querySchema),
+```tsx
+app.post(
+  '/',
+  zValidator('form', schema, (result, c) => {
+    if (!result.success) {
+      console.error(result.error.message)
+      return c.redirect('/')
+    }
+  }),
   async (c) => {
-    const { tag } = c.req.valid('query')
-    const { results } = await c.env.DB.prepare(
-      'SELECT * FROM images WHERE tag = ? ORDER BY RANDOM() LIMIT 1'
+    const id = crypto.randomUUID()
+    const { title, content } = c.req.valid('form')
+
+    await c.env.DB.prepare(
+      'INSERT INTO posts(id, title, content) values (?, ?, ?)'
     )
-      .bind(tag)
-      .all<Image>()
-    const images = results
-    return c.json(images)
+      .bind(id, title, content)
+      .run()
+
+    return c.redirect('/')
   }
 )
 ```
 
-### デプロイ
-
-`image-tag`という名前でデプロイしておく
-
 # 8. AI編
 
-- ChatGPTはOpenAPIに対応する => Zod OpenAPI
-- ChatGPTのStreamingを扱う => `c.streamText()`
+## 8.1 リモートMCPサーバーをつくってみよう
 
-## 8.1 ChatGPTのPluginをつくってみよう
+- ブログの仕組みをそのままリモートMCPにする
+- [`@hono/mcp`](https://github.com/honojs/middleware/tree/main/packages/mcp)と[`@modelcontextprotocol/sdk`](https://github.com/modelcontextprotocol/typescript-sdk)を使った認証レス、ステートレスの超簡易なもの
+- Cloudflareの[Agents SDK](https://developers.cloudflare.com/agents/guides/remote-mcp-server/)も使える
+- [https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp](https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp)
 
-### 完成形
-
-![output](https://github.com/yusukebe/cloudflare-workshop-examples/assets/10682/27f7167e-77f9-4319-886c-359a651f27ff)
-
-### 完成品のダウンロード
-
-```txt
-npx degit yusukebe/cloudflare-workshop-examples/projects/ssr ssr
-```
-
-### ディレクトリ構造
-
-```txt
-$ tree .
-.
-├── package.json
-├── src
-│   ├── ai-plugin.ts
-│   ├── index.ts
-│   └── routes.ts
-└── tsconfig.json
-```
-
-### ドキュメント
-
-- [Examples - OpenAI API](https://platform.openai.com/docs/plugins/examples)
-
-### APIの定義を書く
-
-自然言語で書けばよい
+### `@hono/mcp`を使う
 
 ```ts
-// src/ai-plugin.ts
-// GET /.well-known/ai-plugin.json にマッピングされる
-export const aiPluginJson = {
-  schema_version: 'v1',
-  name_for_human: 'TODO List (No Auth)',
-  name_for_model: 'todo',
-  description_for_human:
-    'Manage your TODO list. You can add, remove and view your TODOs.',
-  description_for_model:
-    'Plugin for managing a TODO list, you can add, remove and view your TODOs.',
-  auth: {
-    type: 'none',
-  },
-  api: {
-    type: 'openapi',
-    url: 'http://localhost:8787/openapi.json',
-  },
-  logo_url:
-    'https://ss.yusukebe.com/a4ebf3360db8e05185b83866352539ff4a587f2df97273258551dbb34c88b792_800x744.png',
-  contact_email: 'support@example.com',
-  legal_info_url: 'https://example.com/legal',
-}
-```
+import { Hono } from 'hono'
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { StreamableHTTPTransport } from '@hono/mcp'
 
-### Zod OpenAPI
+const app = new Hono<{ Bindings: CloudflareBindings }>()
 
-インストール
+app.all('/mcp', async (c) => {
+  const transport = new StreamableHTTPTransport()
 
-```txt
-@hono/zod-openapi
-```
-
-Routeの定義。Zodを使う
-
-```ts
-import { z, createRoute } from '@hono/zod-openapi'
-
-const UsernameParamsSchema = z.object({
-  username: z.string().openapi({
-    description: 'The name of user.',
-  }),
-})
-
-const routeGetTodos = createRoute({
-  method: 'get',
-  path: '/todos/{username}',
-  operationId: 'getTodos',
-  summary: 'Get the list of todos',
-  request: {
-    params: UsernameParamsSchema,
-  },
-  responses: {
-    '200': {
-      description: 'OK',
-      content: {
-        'application/json': {
-          schema: z.object({
-            todos: z.array(z.string()).openapi({
-              description: 'The list of todos.',
-            }),
-          }),
-        },
-      },
-    },
-  },
-})
-```
-
-エンドポイントの実装
-
-```ts
-app.openapi(routeGetTodos, (c) => {
-  const { username } = c.req.valid('param')
-  return c.jsonT({
-    todos: _TODOS[username],
-  })
-})
-```
-
-## 8.2 ChatGPTのGatewayをつくってみよう
-
-### 完成形
-
-![output](https://github.com/yusukebe/cloudflare-workshop-examples/assets/10682/00c8018f-f341-45e6-bfb8-7f6b2cc60959)
-
-### 完成品のダウンロード
-
-```txt
-npx degit yusukebe/cloudflare-workshop-examples/projects/chatgpt-streaming chatgpt-streaming
-```
-
-### Sonik
-
-実は開発中の[Sonik](https://github.com/yusukebe/sonik)というメタフレームワークを使っている。
-
-- Hono、Vite、UIライブラリを組み合わせたメタフレームワーク
-- ファイルベースルーティング
-- SSR
-- デフォルトでJavaScriptオフ
-- Islandハイドレーション
-- UIプリセット
-- APIアプリを作るのにもおすすめ
-- Honoのミドルウェアが使える
-- エッジで実行されることを想定
-
-### ディレクトリ構造
-
-```txt
-$ tree .
-.
-├── app
-│   ├── client.ts
-│   ├── islands
-│   │   └── component.tsx
-│   ├── routes
-│   │   ├── _404.tsx
-│   │   ├── _layout.tsx
-│   │   └── index.tsx
-│   ├── server.ts
-│   └── style.css
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
-```
-
-### キモはここ
-
-```ts
-// app/routes/index.tsx
-app.post('/api', async (c) => {
-  const body = await c.req.json<{ message: string }>()
-
-  const openai = new OpenAI({ apiKey: c.env.OPENAI_API_KEY })
-  const chatStream = await openai.chat.completions.create({
-    messages: PROMPT(body.message),
-    model: 'gpt-3.5-turbo',
-    stream: true,
+  const mcpServer = new McpServer({
+    name: 'my-blog-mcp-server',
+    version: '1.0.0',
   })
 
-  return c.streamText(async (stream) => {
-    for await (const message of chatStream) {
-      await stream.write(message.choices[0]?.delta.content ?? '')
-    }
-  })
-})
-```
-
-## 8.3 先程のR2と組み合わせたChatGPTのPluginをつくってみよう
-
-### 完成品のダウンロード
-
-```txt
-npx degit yusukebe/image-tag image-tag-plugin
-```
-
-### ディレクトリ構成
-
-```ts
-tree .
-.
-├── .gitignore
-├── README.md
-├── package.json
-├── src
-│   ├── ai-plugin.ts
-│   ├── index.ts
-│   └── routes.ts
-├── tsconfig.json
-└── wrangler.toml
-```
-
-### `src/ai-plugin.ts`
-
-```ts
-export const aiPluginJson = (baseURL: string) => {
-  return {
-    schema_version: 'v1',
-    name_for_human: 'meshitero',
-    name_for_model: 'meshitero',
-    description_for_human: 'Meshitero Plugin',
-    description_for_model:
-      'This plugin is a food-terrorism plugin that shows hungry users the pictures specified in the tag.',
-    auth: {
-      type: 'none',
-    },
-    api: {
-      type: 'openapi',
-      url: `${baseURL}/openapi.json`,
-    },
-    logo_url:
-      'https://ss.yusukebe.com/4203deb97493d70346bfff59b02d0f769467c29df64c072bc947d4a55a495dec_800x636.png',
-    contact_email: 'support@example.com',
-    legal_info_url: 'https://example.com/legal',
-  }
-}
-```
-
-### `routes.ts`
-
-```ts
-import { z, createRoute } from '@hono/zod-openapi'
-
-export const schema = z.object({
-  id: z.string(),
-  tag: z.string(),
-  created_at: z.string(),
-  url: z.string(),
-})
-
-const paramSchema = z.object({
-  tag: z.enum(['肉', 'ラーメン']),
-})
-
-const routeRandom = createRoute({
-  method: 'get',
-  path: '/random',
-  request: {
-    query: paramSchema,
-  },
-  operationId: 'random',
-  summary: 'Get a random niku info',
-  responses: {
-    '200': {
-      description: 'OK',
-      content: {
-        'application/json': {
-          schema: schema,
-        },
-      },
-    },
-  },
-})
-
-export { routeRandom }
-```
-
-### `index.ts`
-
-```ts
-import { OpenAPIHono, z } from '@hono/zod-openapi'
-import { cors } from 'hono/cors'
-import { aiPluginJson } from './ai-plugin'
-import { routeRandom, schema } from './routes'
-
-const app = new OpenAPIHono()
-app.use('*', cors())
-
-const apiBaseURL = 'https://image-tag.yusukebe.workers.dev'
-const baseURL = 'http://localhost:8787'
-
-app.openapi(routeRandom, async (c) => {
-  const url = new URL(`${apiBaseURL}/api/random`)
-  const { tag } = c.req.valid('query')
-  url.searchParams.set('tag', tag)
-  console.log(`Request to ${url.toString()}`)
-  const resRandom = await fetch(url.toString())
-  const images = await resRandom.json<z.infer<typeof schema>[]>()
-  const data = images[0]
-  data.url = `https://image-tag.yusukebe.workers.dev/file/${data.id}`
-  return c.jsonT(data)
-})
-
-app.get('/.well-known/ai-plugin.json', (c) => {
-  return c.json(aiPluginJson(baseURL))
-})
-
-app.doc('/openapi.json', {
-  openapi: '3.0.1',
-  info: {
-    title: 'Meshitero',
-    description:
-      'This plugin is a food-terrorism plugin that shows hungry users the pictures specified in the tag.',
-    version: 'v1',
-  },
-  servers: [
-    {
-      url: baseURL,
-    },
-  ],
+  await mcpServer.connect(transport)
+  return transport.handleRequest(c)
 })
 
 export default app
 ```
 
-## 消す
+### ツールの定義
 
-つくったものを消しておく
+```ts
+app.all('/mcp', async (c) => {
+  const transport = new StreamableHTTPTransport()
+
+  const mcpServer = new McpServer({
+    name: 'my-blog-mcp-server',
+    version: '1.0.0',
+  })
+
+  mcpServer.tool('get_posts', async () => {
+    const { results: posts } = await c.env.DB.prepare(
+      'SELECT * FROM posts ORDER BY created_at DESC;'
+    ).all<Post>()
+    return {
+      content: [
+        {
+          type: 'text',
+          text: JSON.stringify(posts),
+        },
+      ],
+    }
+  })
+
+  mcpServer.tool(
+    'create_post',
+    { title: z.string(), content: z.string() },
+    async ({ title, content }) => {
+      const id = crypto.randomUUID()
+      const { success } = await c.env.DB.prepare(
+        'INSERT INTO posts(id, title, content) values (?, ?, ?)'
+      )
+        .bind(id, title, content)
+        .run()
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({ success }),
+          },
+        ],
+      }
+    }
+  )
+
+  await mcpServer.connect(transport)
+  return transport.handleRequest(c)
+})
+```
+
+## 8.2 Workers AIを使ってみよう
+
+- 推論モデルを動かすだけなら簡単
+- たくさんのモデル [https://developers.cloudflare.com/workers-ai/models/](https://developers.cloudflare.com/workers-ai/models/)
+
+## 8.3 Agents
+
+- [https://agents.cloudflare.com/](https://agents.cloudflare.com/)
+- Cloudflare上でAIエージェントを作ろう
+- 新しいプロダクトというよりか、Workersとその他を組み合わせたもの
+
+### そもそもCloudflareでAIをやる意味
+
+- サーバーレス
+- Durable Objectsで状態を管理できる
+- Workers AI、Schedule、Workflowsなどがある
+- Agents SDKがある
+  - 例: MCPの認証の実装は面倒だが、提供してくれている
+- MCPサーバーへの取り組み
+  - [本日からご利用いただけるCloudflareの新MCPサーバー13製品](https://blog.cloudflare.com/ja-jp/thirteen-new-mcp-servers-from-cloudflare/)
+  - [MCPデモ・デー: 先進的なAI企業10社がCloudflare上でMCPサーバーを構築した方法](https://blog.cloudflare.com/ja-jp/mcp-demo-day/)
+
+## 8.4 Sandbox SDK
+
+- [https://sandbox.cloudflare.com/](https://sandbox.cloudflare.com/)
+- 隔離されたコンテナの環境でアプリを実行する
+- AIがコードを実行するのに使える
+- あとはCI/CDなど
+
+```ts
+import { getSandbox } from '@cloudflare/sandbox'
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const sandbox = getSandbox(env.Sandbox, 'user-123')
+
+    // Execute a command and get the result
+    const result = await sandbox.exec('python --version')
+
+    return Response.json({
+      output: result.stdout,
+      exitCode: result.exitCode,
+      success: result.success,
+    })
+  },
+}
+```
+
+## 8.5 x402
+
+- [https://blog.cloudflare.com/x402/](https://blog.cloudflare.com/x402/)
+- [https://developers.cloudflare.com/agents/x402/](https://developers.cloudflare.com/agents/x402/)
+- Coinbaseと協力し「x402」を設立
+- 402 Payment Requiredを使ってHTTP経由で支払いする
+- Cloudflareネットワークでできるようになるかもしれない
+- 現在もWorkersで実装できる
+
+### デモ
+
+- MCPサーバーがx402を実装し支払いを要求
+- クライアントも実装してある
+- 0.01ドルだけ使える
+- ツール呼び出し使う
+- 一度使うと無一文になるので使えない
+- [https://playground.x402.cloudflare.com/](https://playground.x402.cloudflare.com/)
 
 # 9. Honoをより深く使う
 
@@ -2232,47 +1727,18 @@ app.use('/another-app/admin/*', basicAuth({ username, password }))
 
 # 10. その他
 
+- Containers
+  - [https://github.com/yusukebe/image-resize-containers](https://github.com/yusukebe/image-resize-containers)
 - Bindingsのテストについて
 - Vite plugins
-- Sonikについて
+- HonoXについて
 
-# おまけ. この資料もWorkersでできてる
+## おまけ. この資料もWorkersでできてる
 
-これだけで、MarkdownをHTMLにするやつを作れて、デプロイ、配信までできてしまう
+- [https://github.com/yusukebe/cloudflare-workshop](https://github.com/yusukebe/cloudflare-workshop)
 
-```ts
-import { Hono } from 'hono'
-import { marked } from 'marked'
-import { rendererMiddleware } from './renderer'
-import index from '../pages/index.md'
+## リンク集
 
-const app = new Hono()
-app.get('*', rendererMiddleware)
-
-app.get('/', (c) =>
-  c.render(marked(index), {
-    title: 'Cloudflare Workers + Hono Workshop',
-  })
-)
-```
-
-種明かし
-
-- Markdownをモジュールとして読み込む
-- [Marked](https://marked.js.org/)でHTMLにする
-- オリジナルの`renderer`を定義しておく
-- HTMLを受け取りレイアウトに埋め込み
-- タイトル、URL、イメージなどを受け取りメタタグ、OGPにセット
-- `favicon.ico`も配信
-- Workersでデプロイ
-- 全部バンドルされちゃうので、Markdownのテキストが多くなるとサイズが大きくなる
-
-# リンク集
-
-- [Hono - Ultrafast web framework for the Edges](https://hono.dev/)
-- [honojs/hono: Lightweight, Ultrafast, Web Standards](https://github.com/honojs/hono)
-- [yusukebe/cloudflare-workshop-examples: Cloudflare Workers + Hono Workshop](https://github.com/yusukebe/cloudflare-workshop-examples)
-- [yusukebe/cloudflare-workshop](https://github.com/yusukebe/cloudflare-workshop)
-- [yusukebe/ramen-plugin](https://github.com/yusukebe/ramen-plugin)
-- [yusukebe/image-tag](https://github.com/yusukebe/image-tag)
+- [https://hono.dev/](https://hono.dev/)
+- [https://github.com/honojs/hono](https://github.com/honojs/hono)
 - [Cloudflare Workersプロキシパターン](https://zenn.dev/yusukebe/articles/647aa9ba8c1550)

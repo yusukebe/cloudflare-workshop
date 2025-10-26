@@ -11,7 +11,14 @@ const entry = './app/server.ts'
 export default defineConfig(() => {
   return {
     plugins: [
-      honox(),
+      honox({
+        devServer: {
+          handleHotUpdate: ({ server }) => {
+            server.hot.send({ type: 'full-reload' })
+            return []
+          }
+        }
+      }),
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',

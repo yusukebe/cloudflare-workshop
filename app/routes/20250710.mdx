@@ -59,7 +59,7 @@ imageUrl: 'https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77
 
 #### Workers Tech Talks in Tokyo #5
 
-* [https://blog.yusu.ke/workers-tech-talks-5/](https://blog.yusu.ke/workers-tech-talks-5/)
+- [https://blog.yusu.ke/workers-tech-talks-5/](https://blog.yusu.ke/workers-tech-talks-5/)
 
 ![Workers Tech Talks in Tokyo 5](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
 
@@ -183,8 +183,8 @@ CloudflareのリソースとWorkersを結ぶ
 
 > Fast, lightweight, built on Web Standards. Support for any JavaScript runtime.
 
-* [https://hono.dev](https://hono.dev)
-* [The story of web framework Hono, from the creator of Hono - The Cloudflare Blog](https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono/)
+- [https://hono.dev](https://hono.dev)
+- [The story of web framework Hono, from the creator of Hono - The Cloudflare Blog](https://blog.cloudflare.com/the-story-of-web-framework-hono-from-the-creator-of-hono/)
 
 ## 3.2 ユースケース
 
@@ -196,21 +196,21 @@ CloudflareのリソースとWorkersを結ぶ
 
 ## 3.3 どこで使われているか？
 
-* Nodecraft
-* OpenStatus
-* Unkey
-* Goens
-* NOT A HOTEL
-* CyberAgent
-* Shift
-* Hanabi.rest
-* BaseAI
-* Mastra
-* その他
+- Nodecraft
+- OpenStatus
+- Unkey
+- Goens
+- NOT A HOTEL
+- CyberAgent
+- Shift
+- Hanabi.rest
+- BaseAI
+- Mastra
+- その他
 
 ### Who is using Hono in production?
 
-* [https://github.com/orgs/honojs/discussions/1510](https://github.com/orgs/honojs/discussions/1510)
+- [https://github.com/orgs/honojs/discussions/1510](https://github.com/orgs/honojs/discussions/1510)
 
 ## 3.4 5つの特徴
 
@@ -351,10 +351,8 @@ RegExpRouter, SmartRouter, LinearRouter, PatternRouterは [@usualomaさん](http
 
 > - `hono`:
 >   ほとんどのユースケースでオススメです。ルーティング登録が`hono/quick`より遅いとはいえ、一度登録されれば高いパフォーマンスを発揮します。**Deno**や**Bun**、それに**Node.js**などを使った常駐型のサーバーには最適です。また、**Cloudflare Workers**や**Deno Deploy**でもこのプリセットを使えばいいでしょう。というのもこれらのようなv8 isolateを使った環境では、isolateは起動後しばらく行き続けるからです（時間が決まっていたり、メモリなどの状況に応じて変化したりします）。
->
 > - `hono/quick`:
 >   このプリセットはリクエストのたびにアプリケーションが初期化されるような環境に適しています。**Fastly Compute**はこれに従うので、このプリセットを使うといいでしょう。
->
 > - `hono/tiny`:
 >   このプリセットは一番ファイルサイズの小さいプリセットです。リソースが限られている環境にはいいでしょう。
 
@@ -451,7 +449,7 @@ import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
 
 export const config = {
-  runtime: 'edge'
+  runtime: 'edge',
 }
 
 const app = new Hono().basePath('/api')
@@ -736,8 +734,10 @@ describe('Example', () => {
 ```ts
 import { testClient } from 'hono/testing'
 
-it('test', async() => {
-  const app = new Hono().get('/search', (c) => c.json({ hello: 'world' }))
+it('test', async () => {
+  const app = new Hono().get('/search', (c) =>
+    c.json({ hello: 'world' })
+  )
   const res = await testClient(app).search.$get()
 
   expect(await res.json()).toEqual({ hello: 'world' })
@@ -782,14 +782,14 @@ bun create cloudflare
 
 ```json
 {
-	"name": "01-hello-world",
-	"version": "0.0.0",
-	"private": true,
-	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"cf-typegen": "wrangler types"
-	}
+  "name": "01-hello-world",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "cf-typegen": "wrangler types"
+  }
 }
 ```
 
@@ -1209,13 +1209,18 @@ app.get('/pages/*', async (c) => {
     element(element) {
       const attribute = element.getAttribute(this.attributeName)
       if (attribute) {
-        element.setAttribute(this.attributeName,
-	  attribute.replace(OLD_URL, NEW_URL))
+        element.setAttribute(
+          this.attributeName,
+          attribute.replace(OLD_URL, NEW_URL)
+        )
       }
     }
   }
 
-  const rewriter = new HTMLRewriter().on('a', new AttributeRewriter('href'))
+  const rewriter = new HTMLRewriter().on(
+    'a',
+    new AttributeRewriter('href')
+  )
 
   const res = await fetch(c.req.raw)
   const contentType = res.headers.get('Content-Type')
@@ -1358,8 +1363,8 @@ wrangler deploy --minify src/index.ts
 
 ## 7.1 BlogのUIもつくってみよう
 
-* 拡張子を`.tsx`にしてJSXを使おう
-* シンプルなSSRでの描画をする
+- 拡張子を`.tsx`にしてJSXを使おう
+- シンプルなSSRでの描画をする
 
 ### 完成形
 
@@ -1374,7 +1379,10 @@ export const renderer = jsxRenderer(({ children }) => {
   return (
     <html lang='en'>
       <head>
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1'
+        />
         <link
           rel='stylesheet'
           href='https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css'
@@ -1456,7 +1464,9 @@ app.post(
     const id = crypto.randomUUID()
     const { title, content } = c.req.valid('form')
 
-    await c.env.DB.prepare('INSERT INTO posts(id, title, content) values (?, ?, ?)')
+    await c.env.DB.prepare(
+      'INSERT INTO posts(id, title, content) values (?, ?, ?)'
+    )
       .bind(id, title, content)
       .run()
 
@@ -1469,10 +1479,10 @@ app.post(
 
 ## 8.1 リモートMCPサーバーをつくってみよう
 
-* ブログの仕組みをそのままリモートMCPにする
-* [`@hono/mcp`](https://github.com/honojs/middleware/tree/main/packages/mcp)と[`@modelcontextprotocol/sdk`](https://github.com/modelcontextprotocol/typescript-sdk)を使った認証レス、ステートレスの超簡易なもの
-* Cloudflareの[Agents SDK](https://developers.cloudflare.com/agents/guides/remote-mcp-server/)も使える
-* [https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp](https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp)
+- ブログの仕組みをそのままリモートMCPにする
+- [`@hono/mcp`](https://github.com/honojs/middleware/tree/main/packages/mcp)と[`@modelcontextprotocol/sdk`](https://github.com/modelcontextprotocol/typescript-sdk)を使った認証レス、ステートレスの超簡易なもの
+- Cloudflareの[Agents SDK](https://developers.cloudflare.com/agents/guides/remote-mcp-server/)も使える
+- [https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp](https://github.com/yusukebe/cloudflare-workshop-examples/tree/main/projects/07-mcp)
 
 ### `@hono/mcp`を使う
 
@@ -1551,7 +1561,7 @@ app.all('/mcp', async (c) => {
 
 ## 8.2 Workers AIを使ってみよう
 
-* 推論モデルを動かすだけなら簡単
+- 推論モデルを動かすだけなら簡単
 
 # 9. Honoをより深く使う
 
@@ -1586,7 +1596,10 @@ app.all('/mcp', async (c) => {
 const ittyRouter = IttyRouter()
 
 // Handle `GET /itty-router/hello`
-ittyRouter.get('/hello', () => new Response('Hello from itty-router!'))
+ittyRouter.get(
+  '/hello',
+  () => new Response('Hello from itty-router!')
+)
 
 // Hono application
 const app = new Hono()
@@ -1623,11 +1636,10 @@ app.use('/another-app/admin/*', basicAuth({ username, password }))
 
 ## おまけ. この資料もWorkersでできてる
 
-* [https://github.com/yusukebe/cloudflare-workshop](https://github.com/yusukebe/cloudflare-workshop)
+- [https://github.com/yusukebe/cloudflare-workshop](https://github.com/yusukebe/cloudflare-workshop)
 
 ## リンク集
 
 - [https://hono.dev/](https://hono.dev/)
 - [https://github.com/honojs/hono](https://github.com/honojs/hono)
 - [Cloudflare Workersプロキシパターン](https://zenn.dev/yusukebe/articles/647aa9ba8c1550)
-
