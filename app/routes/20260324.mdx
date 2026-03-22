@@ -1,0 +1,214 @@
+---
+title: 'Cloudflare Workers 勉強会'
+url: 'https://workshop.yusuke.run/20251028'
+imageUrl: 'https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2716x1452.png'
+---
+
+# Cloudflare開発者プラットフォーム勉強会
+
+- Yusuke Wada
+- 2026/03/24
+- [workshop.yusuke.run](https://workshop.yusuke.run/)
+
+## アジェンダ
+
+1. 自己紹介
+2. Cloudflare開発者プラットフォームについて
+3. Paidプランについて
+4. Workersの使い方
+5. Workers AIの使い方
+6. Honoについて
+7. その他フレームワーク
+8. コーディングエージェントと一緒につかう
+9. 宿題
+10. 参考文献
+
+# 1. 自己紹介
+
+- 和田裕介
+- 2023年4月〜 Developer Advocate @ Cloudflare
+- ボケて co-founder
+- Creator of Hono
+- [https://x.com/yusukebe](https://x.com/yusukebe)
+- [https://github.com/yusukebe](https://x.com/yusukebe)
+
+## やってること
+
+1. Honoの開発
+2. イベント開催
+3. イベント登壇
+4. その他
+
+## Workers Tech Talks
+
+> Cloudflare Workersとその周辺のプロダクトを使う開発者、ライブラリ作者による開発者のためのWorkersに特化したテックトークです。
+
+1. [Cloudflare Workers Tech Talks in Tokyo #1](https://blog.yusu.ke/workers-tech-talks-1/)
+2. [Cloudflare Workers Tech Talks in Tokyo #2](https://blog.yusu.ke/workers-tech-talks-2/)
+3. [Cloudflare Workers Tech Talks in Osaka #1](https://blog.yusu.ke/workers-tech-talks-osaka-1/)
+4. [Cloudflare Workers Tech Talks in Tokyo #3](https://blog.yusu.ke/workers-tech-talks-3/)
+5. [Cloudflare Workers Tech Talks in Tokyo #4](https://blog.yusu.ke/workers-tech-talks-4/)
+6. [Cloudflare Workers Tech Talks in Osaka #2](https://blog.yusu.ke/workers-tech-talks-osaka-2/)
+7. [Cloudflare Workers Tech Talks in Tokyo #5](https://blog.yusu.ke/workers-tech-talks-5/)
+8. [Cloudflare Workers Tech Talks in Kyoto #1](https://blog.yusu.ke/workers-tech-talks-kyoto-1/)
+9. [Cloudflare Workers Tech Talks in Niigata #1](https://blog.yusu.ke/workers-tech-talks-niigata-1/)
+10. [Cloudflare Workers Tech Talks in Hokkaido #1](https://blog.yusu.ke/workers-tech-talks-hokkaido-1/)
+11. [Cloudflare Workers Tech Talks in Tokyo #6](https://blog.yusu.ke/workers-tech-talks-6/)
+12. [Cloudflare Workers Tech Talks in Fukuoka #1](https://blog.yusu.ke/workers-tech-talks-fukuoka-1/)
+13. [Cloudflare Workers Tech Talks in Austin #1](https://luma.com/5pfl2u3y)
+
+### Workers Tech Talks in Tokyo #5
+
+![Workers Tech Talks in Tokyo 5](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
+
+### Workers Tech Talks in Tokyo #7
+
+2026年4月13日(月)にやります！
+
+- 日時: 2026年4月13(月) 19:00 〜 21:00
+- 会場: LayerX イベントスペース（東銀座駅近く）
+- [「Web開発者のための［入門］Cloudflare Workers」](https://www.amazon.co.jp/dp/4297154382)の作者の人が何人か話す
+
+![Workers Book](https://ss.yusukebe.com/af2fade8435aa7ea81da9f7a981637016843d6b482d3b9822297b1af3aadf847.png)
+
+![Time Table](https://ss.yusukebe.com/f7f418e9fd45a318dafddf1d8d7115ffe1ca903825d389cd81522895ffcef592.png)
+
+# 2. Cloudflare開発者プラットフォームについて
+
+- Cloudflareには開発者プラットフォームがあります
+- Cloudflareにあるたくさんのプロダクトの一部
+- Cloudflare Workersを中心としたサーバーレスの環境
+- 実際に手を動かす「開発者」向け
+
+![Dev Platform](https://ss.yusukebe.com/7dcd2b8894ec45b14a8d3900fbe942f6af74c020c10c3660421b488bfc9cf06e_774x430.png)
+
+## 何ができるのか？
+
+- Webアプリケーションの構築
+- CDNで実行されるアプリケーション
+
+## Webアプリケーションの構築
+
+![Webapp](https://ss.yusukebe.com/49dce2878807866487d7c655134145d72cc631bb544845e4eb1bdc12e2b8aab5_1972x936.png)
+
+## CDNで実行されるアプリケーション
+
+![CDN](https://ss.yusukebe.com/3f362351da2bc46b8a02290ecf454b666f9c99b6d0cf4c46a42e8fc3f87bde55_2170x904.png)
+
+## 特徴
+
+![特徴](https://ss.yusukebe.com/9218d5c39470c583eaba1f9cf371e9a040c7cc90847ace1704204e74837bc4a4_1856x1034.png)
+
+## Cloudflareの全プロダクト
+
+![プロダクト](https://ss.yusukebe.com/b9441f8586ad507d1e4c6a03b79bda8b96f52d39b4f1ee605e3781b2b5a0bd0b_1888x1088.png)
+
+## 開発者プラットフォームのプロダクト
+
+![プロダクト](https://ss.yusukebe.com/3fd4f201e215bfe0a79dde266882c120d6ccf83b9a5e9c3ab18518c6ee5d0524_2014x914.png)
+
+[https://developers.cloudflare.com/products/?product-group=Developer+platform](https://developers.cloudflare.com/products/?product-group=Developer+platform)
+
+## Workersについて
+
+- 開発者プラットフォームのベースになる
+- 開発者プラットフォームのプロダクトはWorkersが前提で作られている
+- Cloudflareのネットワークで実行されるサーバーレス環境
+
+> Build serverless applications and deploy instantly across the globe for exceptional performance, reliability, and scale.
+>
+> サーバーレスアプリケーションを構築し、卓越したパフォーマンス、信頼性、スケールのために世界中に即座にデプロイします。
+>
+> https://developers.cloudflare.com/workers/
+
+- 設定、メンテ必要なしのサーバーレス環境を提供
+- JavaScript/Pythonで記述可能
+- WASMも動く
+- Bindingsで各プロダクトに接続可能
+- Cloudflareのネットワークに即座にデプロイされる
+- フリープランで使うことができる
+- [Workers Playground](https://workers.new) - [https://workers.new](https://workers.new)
+
+## Cloudflare Workersの思想
+
+![SS](https://ss.yusukebe.com/4ad5531eece2c6dd3d39c00c79a70cc2a213809ace6144b16efba0d03e30b2e0_800x303.png)
+
+- [Cloudflare Workersのご紹介: エッジでJavaScript Service Workersを実行する](https://blog.cloudflare.com/ja-jp/introducing-cloudflare-workers-ja-jp/)
+- 2017年9月の記事
+- Cloudflareのネットワークをプログラム可能にする
+- 検討した結果JavaScriptに行き着く
+- V8を採用、複数のユーザーのスクリプトを安全に実行
+- Service Worker APIを採用、ブラウザ用だが実はサーバーサイドにも適している
+- Web APIとして賢く設計されている
+- コンテナではできないことができる
+  - スタートアップが速い
+  - コールドスタートがない
+  - CPUスロットリングがない
+  - リソースのリミットを考える必要がない
+
+![v8](https://ss.yusukebe.com/1f4b6eb1f13c4af89478337861541716493f4d387ef48b33ebb718d3a2bcbe62_982x818.png)
+
+## Wrangler
+
+- WorkersのためのCLI
+- Workersプロジェクトの作成、テスト、デプロイ
+- Pagesでも使用
+- Bindingsの管理や`tail`なども
+
+![SS](https://ss.yusukebe.com/0da11c72988072caed24086d59f5b21535a3bfa3a3d587079ac41f690ca91385_800x486.png)
+
+## Bindings
+
+CloudflareのプロダクトとWorkersを結ぶ
+
+- KV
+- Durable Objects
+- R2
+- D1
+- Service Bindings
+- Queue
+- Email
+- Workers AI
+- Containers
+- など
+
+# 3. Paidプランについて
+
+## Workers
+
+![Table](https://ss.yusukebe.com/457d80a55905df186450e49d8263815ba2c01a1778a04756d09f5407bbe330dd.png)
+
+### ドキュメント
+
+- [Directory > Workers > Platform > Pricing](https://developers.cloudflare.com/workers/platform/pricing)
+- [Directory > Workers > Platform > Limits](https://developers.cloudflare.com/workers/platform/limits/)
+
+## Workers AI
+
+![Pricing](https://ss.yusukebe.com/238da1fa08ead6efc948269ebefab08c3c5a20a6a9e51548a7b5f01056306e38.png)
+
+### Neuronsとは
+
+リクエストの実行に必要なGPUの演算量
+
+### モデルごとの料金
+
+![Table](https://ss.yusukebe.com/deba50015e5f48a2bbe8a1c912938a5f59e3d9e7b0d09ce5d9a9147d2b753c20.png)
+
+### ドキュメント
+
+- [Directory - Workers AI - Platform - Pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
+
+# 4. Workersの使い方
+
+# 5. Workers AIの使い方
+
+# 6. Honoについて
+
+# 7. その他フレームワーク
+
+# 8. コーディングエージェントと一緒につかう
+
+# 9. 宿題
+
+# 10. 参考文献
