@@ -15,9 +15,9 @@ imageUrl: 'https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77
 1. 自己紹介
 2. Cloudflare開発者プラットフォームについて
 3. Paidプランについて
-4. Workersの使い方
-5. Workers AIの使い方
-6. Honoについて
+4. Honoについて
+5. Workersの使い方
+6. Workers AIの使い方
 7. その他フレームワーク
 8. コーディングエージェントと一緒につかう
 9. 宿題
@@ -199,16 +199,139 @@ CloudflareのプロダクトとWorkersを結ぶ
 
 - [Directory - Workers AI - Platform - Pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
 
-# 4. Workersの使い方
+# 4. Honoについて
 
-# 5. Workers AIの使い方
+- Cloudflare Workersで動くWebフレームワーク
+- ルーティングが必要になったら使った方がいい
+- [公式ドキュメント](https://hono.dev/)
 
-# 6. Honoについて
+# 5. Workersの使い方
+
+- 雛形からプロジェクトの作成
+- C3もしくはcreate-honoを使う
+- Wranglerで開発をする
+- デプロイ
+- Bindings
+
+## Bindings
+
+### D1を使う
+
+```bash
+npx wrangler d1 create blog
+```
+
+```json
+// wrangler.jsonc
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "blog",
+      "database_id": "xxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
+```
+
+```sql
+-- blog.sql
+CREATE TABLE posts (
+  id TEXT PRIMARY KEY,
+  created_at TEXT DEFAULT (datetime('now')),
+  title TEXT,
+  content TEXT
+);
+```
+
+```bash
+npx wrangler d1 execute blog --local --file ./blog.sql
+npx wrangler d1 execute blog --local --command "INSERT INTO posts(id,title,content) VALUES('1','Hello','Nice day!')"
+npx wrangler d1 execute blog --local --command "SELECT * FROM posts"
+```
+
+```ts
+import { Hono } from 'hono'
+import { z } from 'zod'
+import { zValidator } from '@hono/zod-validator'
+
+export const schema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+})
+
+type Post = z.infer<typeof schema> & {
+  created_at: string
+  id: string
+}
+
+const app = new Hono<{ Bindings: CloudflareBindings }>()
+
+app.get('/posts', async (c) => {
+  const { results } = await c.env.DB.prepare(
+    'SELECT * FROM posts ORDER BY created_at DESC;'
+  ).all<Post>()
+  return c.json({
+    posts: results,
+  })
+})
+
+app.post('/posts', zValidator('form', schema), async (c) => {
+  const { title, content } = c.req.valid('form')
+  const id = crypto.randomUUID()
+  const { success } = await c.env.DB.prepare(
+    'INSERT INTO posts(id, title, content) values (?, ?, ?)'
+  )
+    .bind(id, title, content)
+    .run()
+  return c.json({ success })
+})
+
+export default app
+```
+
+# 6. Workers AIの使い方
+
+- `AI` Bindingsを追加する
 
 # 7. その他フレームワーク
 
+- UIが必要になった時
+- Hono JSX
+- Vite + Hono JSX
+- Vite + React
+- TanStack
+- Remix
+
 # 8. コーディングエージェントと一緒につかう
 
+## MCP
+
+```json
+// .mcp.json
+{
+  "mcpServers": {
+    "hono-docs": {
+      "type": "http",
+      "url": "https://hono-docs-mcp.yusukebe.workers.dev/mcp"
+    }
+  }
+}
+```
+
+## Skills
+
+- [Cloudflare Skills](https://github.com/cloudflare/skills)
+- [Hono Skills](https://github.com/yusukebe/hono-skill)
+
+```bash
+npx skills add cloudflare/skills
+npx skills add yusukebe/hono-skill
+```
+
 # 9. 宿題
+
+- Cloudflare Workersでデプロイしてみる
+- コーディングエージェントでアプリを書いてみる
 
 # 10. 参考文献
