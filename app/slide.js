@@ -127,10 +127,6 @@
       else document.exitFullscreen()
     }
   })
-  root.addEventListener('click', function (e) {
-    if (e.target.closest('a, pre, img')) return
-    go(e.clientX < window.innerWidth / 2 ? idx - 1 : idx + 1)
-  })
 
   var h = parseInt((location.hash || '').replace('#', ''), 10)
   if (h) idx = Math.max(0, Math.min(slides.length - 1, h - 1))
