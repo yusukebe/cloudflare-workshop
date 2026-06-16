@@ -45,6 +45,41 @@
   // Fallback: no '---' separators -> split before each H1/H2 heading
   if (slides.length < 2) slides = splitOn(beforeHeading)
 
+  // Slidev-style columns: a `::right::` marker splits a slide into two columns.
+  // A leading heading stays full-width on top (like slidev's two-cols-header).
+  function isColumnMarker(n) {
+    if (n.nodeType !== 1 || n.tagName !== 'P') return false
+    var t = n.textContent.trim()
+    return t === '::right::' || t === ':::'
+  }
+  function applyColumns(slide) {
+    var kids = Array.prototype.slice.call(slide.childNodes)
+    var markerIdx = -1
+    for (var i = 0; i < kids.length; i++) {
+      if (isColumnMarker(kids[i])) {
+        markerIdx = i
+        break
+      }
+    }
+    if (markerIdx === -1) return
+    var cols = document.createElement('div')
+    cols.className = 'cols'
+    var left = document.createElement('div')
+    var right = document.createElement('div')
+    cols.appendChild(left)
+    cols.appendChild(right)
+    kids.forEach(function (n, i) {
+      if (i === markerIdx) return // drop the marker itself
+      ;(i < markerIdx ? left : right).appendChild(n)
+    })
+    slide.innerHTML = ''
+    // Lift a leading heading out of the left column to span the full width.
+    var first = left.firstElementChild
+    if (first && /^H[1-3]$/.test(first.tagName)) slide.appendChild(first)
+    slide.appendChild(cols)
+  }
+  slides.forEach(applyColumns)
+
   root.innerHTML = ''
   slides.forEach(function (s) {
     root.appendChild(s)
