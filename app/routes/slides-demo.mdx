@@ -1,0 +1,43 @@
+---
+title: 'Slide Demo'
+slide: true
+theme: cloudflare
+---
+
+# Cloudflare Workers + Hono
+
+スライドモードのデモ
+
+- `slide: true` でスライド化
+- `theme: cloudflare` でテーマ指定
+
+---
+
+## 区切りは `---`
+
+本文中の `---`（水平線）でスライドを分割します。
+
+slidev / reveal.js と同じ感覚で書けます。
+
+---
+
+## コードもOK
+
+```ts
+import { Hono } from 'hono'
+
+const app = new Hono()
+app.get('/', (c) => c.text('Hello Cloudflare!'))
+
+export default app
+```
+
+ハイライトもそのまま効きます。
+
+---
+
+## 操作方法
+
+- `←` `→` / `space`: ページ移動
+- `f`: フルスタイル（フルスクリーン）
+- クリック: 左半分=戻る / 右半分=進む
