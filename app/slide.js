@@ -85,6 +85,40 @@
     root.appendChild(s)
   })
 
+  // Add a copy button to every code block.
+  Array.prototype.forEach.call(root.querySelectorAll('pre'), function (pre) {
+    var code = pre.querySelector('code') || pre
+    var btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'copy-btn'
+    btn.textContent = 'Copy'
+    btn.addEventListener('click', function () {
+      var text = code.innerText
+      var done = function () {
+        btn.textContent = 'Copied!'
+        btn.classList.add('copied')
+        setTimeout(function () {
+          btn.textContent = 'Copy'
+          btn.classList.remove('copied')
+        }, 1200)
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done)
+      } else {
+        var ta = document.createElement('textarea')
+        ta.value = text
+        document.body.appendChild(ta)
+        ta.select()
+        try {
+          document.execCommand('copy')
+        } catch (e) {}
+        document.body.removeChild(ta)
+        done()
+      }
+    })
+    pre.appendChild(btn)
+  })
+
   var idx = 0
   var counter = document.getElementById('counter')
   var progress = document.getElementById('progress')
@@ -95,15 +129,25 @@
     })
     counter.textContent = idx + 1 + ' / ' + slides.length
     progress.style.width = ((idx + 1) / slides.length) * 100 + '%'
-    if (history.replaceState)
-      history.replaceState(null, '', '#' + (idx + 1))
     var active = slides[idx]
     if (active) active.scrollTop = 0
   }
-  function go(n) {
-    idx = Math.max(0, Math.min(slides.length - 1, n))
-    render()
+  function clamp(n) {
+    return Math.max(0, Math.min(slides.length - 1, n))
   }
+  // Push a history entry so the browser back/forward buttons move between slides.
+  function go(n) {
+    var next = clamp(n)
+    if (next === idx) return
+    idx = next
+    render()
+    history.pushState(null, '', '#' + (idx + 1))
+  }
+  window.addEventListener('popstate', function () {
+    var h = parseInt((location.hash || '').replace('#', ''), 10)
+    idx = h ? clamp(h - 1) : 0
+    render()
+  })
 
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return
@@ -129,7 +173,8 @@
   })
 
   var h = parseInt((location.hash || '').replace('#', ''), 10)
-  if (h) idx = Math.max(0, Math.min(slides.length - 1, h - 1))
+  if (h) idx = clamp(h - 1)
   render()
+  history.replaceState(null, '', '#' + (idx + 1))
   if (window.hljs) window.hljs.highlightAll()
 })()

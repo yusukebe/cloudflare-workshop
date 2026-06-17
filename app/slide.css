@@ -150,7 +150,8 @@ body[data-theme='cloudflare'] {
   color: var(--slide-muted);
 }
 .slide pre {
-  font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+  position: relative;
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
   background: var(--slide-code-bg);
   border: 1px solid var(--slide-border);
   padding: 1.2rem 1.5rem;
@@ -165,6 +166,37 @@ body[data-theme='cloudflare'] {
   padding: 0.1em 0.4em;
   border-radius: 4px;
   font-size: 0.9em;
+}
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0.25em 0.7em;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #ddd;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease;
+}
+.slide pre:hover .copy-btn,
+.copy-btn:focus-visible {
+  opacity: 1;
+}
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.copy-btn.copied {
+  color: #fff;
+  background: var(--slide-accent);
+  border-color: var(--slide-accent);
+  opacity: 1;
 }
 #progress {
   position: fixed;
