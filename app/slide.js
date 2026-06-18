@@ -172,6 +172,37 @@
     }
   })
 
+  // Touch swipe navigation for mobile (horizontal flick only, so vertical
+  // scrolling of tall slides is unaffected).
+  var touchX = null
+  var touchY = null
+  root.addEventListener(
+    'touchstart',
+    function (e) {
+      if (e.touches.length !== 1) {
+        touchX = null
+        return
+      }
+      touchX = e.touches[0].clientX
+      touchY = e.touches[0].clientY
+    },
+    { passive: true }
+  )
+  root.addEventListener(
+    'touchend',
+    function (e) {
+      if (touchX === null) return
+      var t = e.changedTouches[0]
+      var dx = t.clientX - touchX
+      var dy = t.clientY - touchY
+      touchX = null
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        go(dx < 0 ? idx + 1 : idx - 1)
+      }
+    },
+    { passive: true }
+  )
+
   var h = parseInt((location.hash || '').replace('#', ''), 10)
   if (h) idx = clamp(h - 1)
   render()
