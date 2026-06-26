@@ -1,0 +1,298 @@
+---
+title: 'Findy Campus Hackathon #2'
+slide: true
+theme: cloudflare
+imageUrl: ''
+---
+
+# Findy Campus Hackathon #2
+
+Cloudflare Developer Advocate <br />
+Yusuke Wada
+
+---
+
+## Yusuke Wada
+
+- 和田裕介
+- Cloudflare Developer Advocate
+  - 2023年4月入社
+- Honoの作者
+
+::right::
+
+![me](https://ss.yusukebe.com/d0630d477f3a3a3eb97f2711dcac50cef18715c73da36879f8da6bb904578ed8.png)
+
+---
+
+## ハッカソンです！
+
+---
+
+これから軽く話します（なるべく開発に時間を割きましょう）。
+
+---
+
+## これから話すこと
+
+- 何が作れるか？
+- Cloudflareの機能
+- Cloudflareを使った開発の最初
+- エージェント・スキル
+
+---
+
+## 何が作れるか？
+
+---
+
+## 分岐
+
+- Cloudlareを使うか？使わないか？
+- ローカルでデモか、デプロイするか？
+- Webアプリか、AIエージェントか？
+
+---
+
+## Cloudflareを使うか？使わないか？
+
+- Cloudflareを無理して使わなくてもいいと思います！
+- ですが、Cloudflareを使うと⋯
+  - 開発から公開までが楽
+  - Node.js依存だけでバックエンドもUIも作れる
+  - AIアプリも作れる
+  - 無料で始められる
+
+---
+
+## ローカルでデモか、デプロイするか？
+
+- 無理して公開しなくてもいいと思います！
+- ですが、公開すると⋯
+  - 全世界から見れる！
+  - Cloudflareなら秒
+  - 見せたくなくなったら消せば良い
+
+---
+
+## Webアプリか、AIエージェントか？
+
+- 何でも（デスクトップアプリとかでも）いいですが、WebアプリかAIエージェントがいいと思います！
+
+---
+
+## Webアプリとは？
+
+- ブラウザ => Webアプリ => Webページ
+- 「Discordボット」とかでもいい
+- ロジック・データベース・UIがある
+
+---
+
+## AIエージェントとは？
+
+ここ重要なんで詳しく
+
+---
+
+> AIエージェントは、AIを活用したコンピュータプログラムで、明示的な指示がなくても自律的にタスクを実行して人間のユーザーを支援することができます。
+>
+> [https://www.cloudflare.com/ja-jp/learning/ai/what-is-agentic-ai/](https://www.cloudflare.com/ja-jp/learning/ai/what-is-agentic-ai/)
+
+---
+
+## AIの変遷
+
+![AIの変遷](https://ss.yusukebe.com/ab5e53a8d9ef72edb2b738acd231f4183583b38ee465018b334f9f8bf8b30a11.png)
+
+---
+
+**AIが考えるだけじゃなくて行動する**
+
+---
+
+## AIエージェントの活用シーン
+
+- ビジネス業務
+  - 競合のリサーチ、データの分析からレポート（資料）の作成までを一貫して実行
+- 旅行・スケジュール管理
+  - 「来月出張に行きたい」と伝えるだけで、航空券やホテルの検索・比較・予約までを自動で完了
+- カスタマーサポート
+  - 顧客ごとの過去の購入履歴や問い合わせ状況をシステムで自律的に調べ、適切な対応を自動提案・実行
+
+---
+
+## コーディングエージェント
+
+- 自ら実行する
+- 実行した結果を学習する
+- 外部のツールと連動する
+
+::right::
+
+![coding agent](https://ss.yusukebe.com/d7b7867a407bee063aa0a0b42508bda332320ff89a7aad6716c43186bbd04d7f.png)
+
+---
+
+## AI「エージェント」であるのが大事
+
+- AIを使ったコーディングだけでもないし⋯
+- プロンプトを変えるだけ、チャットボットでもないし⋯
+- AIが行動する
+
+---
+
+## めちゃくちゃシンプルな例
+
+- memo2task
+- [https://github.com/yusukebe/memo2taske](https://github.com/yusukebe/memo2task)
+- 雑なメモをAIがタスクにしてくれる
+  - タスクのタイトル
+  - 期限
+- ブラウザ通知
+
+---
+
+![memo2task](https://ss.yusukebe.com/memo2task.gif)
+
+---
+
+詳しくは言わないけど、CloudflareはAIエージェントを作るのに最適な場所
+
+---
+
+## AIエージェントに必要な3つの要素
+
+- 推論モデル - エージェントが考える
+- サンドボックス - エージェントが（コードetc.を）実行する
+- 実行環境 - エージェントを置く環境
+
+![ai](https://ss.yusukebe.com/37aaac2ba45737b1550e405e91c32940e026259817d7c5bc4b6b28b5bdefe304.png)
+
+---
+
+## Cloudflareには3つが揃っている
+
+- 推論モデル - Workers AI
+- サンドボックス - Sandboxes / Dynamic Workers / Browser Run
+- 実行環境 - Workers / Durable Objects / Workflows / Agents SDK
+
+![ai](https://ss.yusukebe.com/7857dc5d8a953f5011857b34d1c14fbf42e9a1000bd299599331055f25291a22.png)
+
+---
+
+## 参考文献
+
+- [AIエージェントはCloudflareに賭けろ](https://zenn.dev/yusukebe/articles/ccb1f953e48ee1)
+
+![zenn](https://ss.yusukebe.com/87400444beb62dbac25b015e846551a0e53adcdf4d6dc14dfaa8011b02001cfd.png)
+
+---
+
+## Cloudflareの機能
+
+---
+
+## Cloudflareは機能がたくさん
+
+- その中でも開発者プラットフォーム（Develper Platform）を使うことになるでしょう！
+- Workers / D1 / R2 / KV / Queues / Workflows / Workers AI / AI Gateway / AI Search / Vectorize / Browser Run / Containers / Sandboxes ...
+- いくつか軽く紹介
+
+---
+
+## Cloudflare Workers
+
+- サーバーレスのWebアプリ開発環境
+- AIエージェントの実行環境としても使える
+- Workersを起点にいろんな機能を使う
+- Honoも動く
+
+---
+
+## D1
+
+- SQLデータベース
+- SQLiteの文法が使える
+- Workersからつなげてデータを入れる、取ってくる etc.
+
+---
+
+## R2
+
+- オブジェクトストレージ
+- 画像、音声、動画、設定ファイル、なんでも置ける
+- Workersからつなげて、データを置く、取ってくる etc.
+- 直接配信もできる
+
+---
+
+## Browser Run
+
+- Cloudflare上でヘッドレスブラウザが動く
+- スクリーンショット、PDFの生成、自動化したブラウザタスク
+- Quick Actionsが使いやすい
+
+```ts
+const response = await env.BROWSER.quickAction('screenshot', {
+  url: 'https://example.com',
+})
+```
+
+---
+
+## Workers AI
+
+- 推論モデルがCloudflareネットワーク上で動く
+- 80以上のモデル、外部のモデルも合わせると160以上
+- たくさんの種類
+  - LLM
+  - 画像生成
+  - スピーチ to テキスト
+  - Embedding
+  - etc.
+- AIエージェントが「考える」ために
+
+::right::
+
+![models](https://ss.yusukebe.com/14c5ec285a5fcbb7fa14287349129385fcc579a24cf781e7306cc4445a5ffcaa.png)
+
+---
+
+## Agents SDK
+
+- AIエージェントを作るためのSDK
+- WorkersとDurable Objectsをベースに作られている
+- ステートフルなサーバサイドを作れる
+  - タスクのやり取りを覚えておく => 状態の保持
+  - デバイス、ユーザー間で共有する => リアルタイムで同期
+  - ユーザーが離れたら休止する、再開もする => 休止と再開
+
+::right::
+
+![SS](https://ss.yusukebe.com/agent-counter.gif)
+
+---
+
+- あとは自分で調べて
+- [Cloudflare Developer Docs](https://developers.cloudflare.com/) が正なので迷ったら見る
+
+---
+
+## Cloudflareを使った開発の最初
+
+---
+
+---
+
+## エージェント・スキル
+
+---
+
+---
+
+## Cloudflare Workers Tech Talksについて
+
+Cloudflare Workers / 開発者プラットフォームに特化したミートアップ
+
+![workers tech talks](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
