@@ -2,12 +2,12 @@
 title: 'Findy Campus Hackathon #2'
 slide: true
 theme: cloudflare
-imageUrl: ''
+imageUrl: 'https://ss.yusukebe.com/cf80ac043c37b5587e6b43b5c7a0884c63258909dfa3e4fc85fcfb2c9daa075b.png'
 ---
 
 # Findy Campus Hackathon #2
 
-Cloudflare Developer Advocate <br />
+Cloudflare - Senior Developer Advocate <br />
 Yusuke Wada
 
 ---
@@ -15,7 +15,7 @@ Yusuke Wada
 ## Yusuke Wada
 
 - 和田裕介
-- Cloudflare Developer Advocate
+- Cloudflare - Senior Developer Advocate
   - 2023年4月入社
 - Honoの作者
 
@@ -59,7 +59,7 @@ Yusuke Wada
 - Cloudflareを無理して使わなくてもいいと思います！
 - ですが、Cloudflareを使うと⋯
   - 開発から公開までが楽
-  - Node.js依存だけでバックエンドもUIも作れる
+  - バックエンドもUIも作れる
   - AIアプリも作れる
   - 無料で始められる
 
@@ -195,9 +195,15 @@ Yusuke Wada
 
 ## Cloudflareは機能がたくさん
 
-- その中でも開発者プラットフォーム（Develper Platform）を使うことになるでしょう！
+- その中でも開発者プラットフォーム（Developer Platform）を使うことになるでしょう！
 - Workers / D1 / R2 / KV / Queues / Workflows / Workers AI / AI Gateway / AI Search / Vectorize / Browser Run / Containers / Sandboxes ...
 - いくつか軽く紹介
+
+---
+
+## デモ
+
+[cloudflare-demos - https://cf-demos.yusuke.run/](https://cf-demos.yusuke.run/)
 
 ---
 
@@ -283,16 +289,82 @@ const response = await env.BROWSER.quickAction('screenshot', {
 
 ---
 
+## Wrangler
+
+- 開発、デプロイ、管理のためのCLI
+- これさえあれば全部できる
+- 皆さんのPCに入って入れてもらっているはず⋯
+
+---
+
+## コマンド
+
+```sh
+# 開発サーバーを立ち上げる
+wrangler dev
+
+# デプロイ
+wrangler deploy
+```
+
+---
+
+**ログインだけはやっておいて**
+
+```sh
+npx wrangler login
+```
+
 ---
 
 ## エージェント・スキル
 
 ---
 
+## コーディングエージェント
+
+- コーディングエージェント使う前提でよいです
+- デプロイまでやってもらってOK！
+- Wranglerだとパスワードなしにデプロイできるので安全
+
+---
+
+## スキル
+
+- CloudflareとHonoを使った開発に便利なスキルがあります
+- Cloudflareスキル - [https://github.com/cloudflare/skills](https://github.com/cloudflare/skills)
+- Honoスキル - [https://github.com/yusukebe/hono-skill](https://github.com/yusukebe/hono-skill)
+- さらにこのハッカソン向けのスキルも作りました
+
+---
+
+## 始め方
+
+---
+
+## レポジトリ
+
+[https://github.com/yusukebe/findy-campus-hackathon-02](https://github.com/yusukebe/findy-campus-hackathon-02)
+
+---
+
+## これをやればOK
+
+```sh
+npx degit yusukebe/findy-campus-hackathon-02 my-hackathon-app
+cd my-hackathon-app && npm install
+npm run setup:skills
+```
+
+---
+
+**さあ始めよう！**
+
 ---
 
 ## Cloudflare Workers Tech Talksについて
 
-Cloudflare Workers / 開発者プラットフォームに特化したミートアップ
+Cloudflare Workers / 開発者プラットフォームに特化したミートアップ<br />
+[https://workers-tech.connpass.com/](https://workers-tech.connpass.com/)
 
 ![workers tech talks](https://ss.yusukebe.com/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a_2176x1218.png)
